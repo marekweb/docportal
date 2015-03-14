@@ -1,7 +1,7 @@
 class BoxViewClient
   
   def self.logger
-    @@logger ||= Logger.new()
+    @@logger ||= Logger.new(STDOUT)
   end
   
   def self.box_view_conn
