@@ -79,9 +79,16 @@ class BoxViewClient
     response.body
   
     fields = JSON.parse(response.body)
+    
+    id = fields["id"]
   
-    fields["id"]
+    if id.nil?
+      self.logger.debug("Convert document did not succeed")
+      self.logger.debug("Response status=#{respone.status}")
+      self.logger.debug(response.body)
+    end
 
+    id
   end  
   
 end
