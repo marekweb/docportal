@@ -1,7 +1,7 @@
 class BoxViewClient
   
   def self.logger
-    @@logger ||= Logger.new("#{Rails.root}/log/my.log")
+    @@logger ||= Logger.new()
   end
   
   def self.box_view_conn
@@ -49,20 +49,21 @@ class BoxViewClient
     
     box_view_id = box_document.box_view_id
     
-    self.logger.debug "looking up box_view_id = #{box_view_id}"
+    self.logger.debug "Looking up box_view_id = #{box_view_id}"
 
-    if box_document.box_session_id.present? && box_document.box_session_expiration > 1.minute.from_now
+    if box_document.box_session_id.present? && box_document.box_session_expiration.present? && box_document.box_session_expiration > 1.minute.from_now
       self.logger.debug "Already has a recent session"
       document_session_id = box_document.box_session_id
     else
       self.logger.debug "Creating a new session"
       document_session_id, document_session_expiration = self.box_view_create_session(box_view_id)
-      box_document.box_session_id = document_session_id
-      box_document.box_session_expiration = document_session_expiration
-      box_document.save
+      if document_session_id.present?
+        box_document.box_session_id = document_session_id
+        box_document.box_session_expiration = document_session_expiration
+        box_document.save
+      end
     end
 
-    #render text: document_session_id
     self.logger.debug "Session id = #{document_session_id}"
     document_session_id
   end
