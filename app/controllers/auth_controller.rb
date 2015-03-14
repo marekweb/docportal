@@ -15,7 +15,7 @@ class AuthController < ApplicationController
     
     if !user || !user.enabled
       flash[:email] = params[:email]
-      flash[:notice] = "Your credentials are incorrent."
+      flash[:notice] = "Your credentials are incorrect."
       redirect_to :back
     else
       session[:user_id] = user.id
