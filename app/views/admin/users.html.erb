@@ -1,0 +1,75 @@
+<%= render partial: "common/navbar" %>
+
+
+
+<div class="container">
+
+<%= render partial: 'admin_menu' %>
+
+
+
+  
+<%= form_tag "/create_user" do %>
+<table class="editable-table create-user-table">
+  <tr>
+    <td><input class="form-control" type="email" name="user[email]" placeholder="Email"></td>
+    <td><input class="form-control" type="text" name="user[first_name]" placeholder="First Name"></td>
+    <td><input class="form-control" type="text" name="user[last_name]" placeholder="Last Name"></td>
+    <td><input type="submit" value="Create" class="btn btn-primary"></td>
+  </tr>
+</table>
+<% end %>
+  
+<div class="message alert alert-info" role="alert"><%= flash[:error] %></div>
+
+<table class="editable-table admin-user-list">
+  <tr>
+    <th>Email</th>
+    <th>First Name</th>
+    <th>Last Name</th>
+    <th>Entity</th>
+
+    <th></th>
+    <th></th>
+  </tr>
+  
+  
+  <% @users.each do |u| %>
+  <tr class="user-row <%= "disabled-user" if !u.enabled %>" data-id="<%= u.id %>">
+      <td><input class="form-control" name="user[email]" value="<%= u.email %>" data-initial-value="<%= u.email %>" <%= 'disabled="disabled"' if !u.enabled %>></td>
+      <td><input class="form-control" name="user[first_name]" value="<%= u.first_name %>" data-initial-value="<%= u.first_name %>" <%= 'disabled="disabled"' if !u.enabled %>></td>
+      <td><input class="form-control" name="user[last_name]" value="<%= u.last_name %>" data-initial-value="<%= u.last_name %>" <%= 'disabled="disabled"' if !u.enabled %>></td>
+    <td>
+      <%= select_tag("user[entity_id]", options_for_select((["&mdash;".html_safe] + @entities.map(&:name)).zip([""] + @entities.map(&:id)), u.entity_id), class: "form-control", disabled: ("disabled" if !u.enabled)) %>
+    </td>
+    
+    <td>
+      <div class="row-buttons">
+        <% if !u.admin? %>
+          <% if u.enabled  %>
+            <%= post_form_button "De-activate User", "/toggle_user_enabled", "id", u.id, button_class: 'btn btn-success btn-sm' %>
+          <% else %>
+            <%= post_form_button "Activate User", "/toggle_user_enabled", "id", u.id, button_class: 'btn btn-error btn-sm' %>
+          <% end %>
+        <% end %>
+      </div>
+    </td>
+    <td>
+      <% if !u.enabled %>
+      <div class="badge">Disabled</div>
+      <% end %>
+      
+      <% if u.admin? %>
+      <div class="badge">Admin</div>
+      <% end %>
+    </td>
+  </tr>
+  <% end %>
+  
+
+</table>
+
+
+
+
+</div>

@@ -1,0 +1,2 @@
+module DocumentViewHelper
+end

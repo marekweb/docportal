@@ -1,0 +1,14 @@
+
+<div class="viewer" style="height: 400px"></div>
+<script type="text/javascript">
+    function loadDocument(documentSessionId) {
+        var viewer = Crocodoc.createViewer('.viewer', {
+            url: 'https://view-api.box.com/1/sessions/' + documentSessionId + '/assets/'
+        });
+        viewer.load();
+        return viewer;
+    }
+    
+    loadDocument("<%= @box_document_session_id %>");
+    
+</script>

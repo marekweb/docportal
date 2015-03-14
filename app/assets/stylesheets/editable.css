@@ -1,0 +1,30 @@
+
+.user-row td {
+  padding-bottom: 10px;
+}
+
+.user-row-create td {
+  padding-top: 20px;
+}
+
+.cell_email input {
+  width: 200px;
+}
+
+.inline {
+  display: inline;
+}
+
+.create-user-table {
+  margin-bottom: 80px;
+}
+
+.message {
+  position: fixed;
+  bottom: 0px;
+}
+
+.entities-list {
+  margin: 20px 0;
+  width: 400px;
+}

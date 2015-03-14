@@ -1,0 +1,47 @@
+<%= render partial: "common/navbar" %>
+
+<div class="container">
+  
+  <%= render partial: 'admin_menu' %>
+  
+  <div class="sync-info">
+    <% if @box_access.nil? %>
+      <p>Box access is not set up.</p>
+    <% else %>
+      <p>Box access is linked to this Box account: <code><%= @box_access.user_email %></code></p>
+    <% end %>
+    <p><a href="/box_login">Click here to set the linked Box account.</a></p>
+    <% if @sync.nil? %>
+    <p>Sync not done yet.</p>
+    <% elsif @sync.completed_at.present? %>
+    <p>Last sync completed <%= @sync.completed_at.in_time_zone('EST') %><p>
+    <p>During the last sync: <code><%= @sync.total_files %></code> files scanned, <code><%= @sync.added_files %></code> new files added, <code><%= @sync.removed_files %></code> files removed.</p>
+    <% else %>
+    <p>Sync started at <%= @sync.started_at %> and not completed.</p>
+    <p><b>Last Sync:</b> <%= @sync.completed_at %></p>
+    <% end %>
+    
+    
+    <table class="table">
+      <tr>
+        <th>Started</th>
+        <th>Completed</th>
+        <th>Duration (min)</th>
+        <th>Files</th>
+        <th>Added</th>
+        <th>Removed</th>
+      </tr>
+      <% @last_syncs.each do |s| %>
+      <tr>
+        <td><%= s.started_at.in_time_zone('EST')  %></td>
+        <td><%= s.completed_at.present? ? s.completed_at.in_time_zone('EST') : s.failure %></td>
+        <td><%= ((s.completed_at - s.started_at) / 60).to_i if s.completed_at.present? %></td>
+        <td><%= s.total_files %></td>
+        <td><%= s.added_files %></td>
+        <td><%= s.removed_files %></td>
+      </tr>
+      <% end %>
+    </table>
+  </div>
+
+</div>

@@ -1,0 +1,35 @@
+<div class="header">
+  <div class="container">
+    <div class="col-xs-4">
+      <%= image_tag 'real-white.png', class: 'logo' %>
+    </div>
+    <div class="col-xs-8">
+      <div class="navbar-profile">
+        <span class="profile-icon"><%= current_user.initials %></span>
+        
+        <div class="dropdown">
+          <span class="profile-name"><%= current_user.display_name %></span>
+        </div>
+      
+        <div class="dropdown">
+          <span class="profile-dropdown" data-toggle="dropdown">
+            <span class="profile-name"><%= current_user.display_name %></span>
+            
+            <%= image_tag "icons/bell.png", class: "notification-icon" %>
+
+            <span class="badge notification-badge"><%= @notification_count if @notification_count > 0 %></span>
+          </span>
+          <ul class="dropdown-menu dropdown-menu-right">
+            <% @notifications.each_with_index do |n,i| %>
+              <li class="dropdown-header">Added on <%= n.upload_date %></li></li>
+              <li><a href="#"><%= n.display_title %></a></li>
+              <% if @notifications.length - 1 != i %>
+                <li role="presentation" class="divider"></li>
+              <% end %>
+            <% end %>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,89 @@
+<%= render partial: "common/navbar.html" %>
+
+<div class="container">
+  
+  <% if @broadcast_message.present? %>
+  <div class="col-xs-12">
+    <div class="alert alert-danger" role="alert">
+      <%= image_tag 'icons/email.png', width: "32", style: "margin-right: 20px" %>
+      <%= @broadcast_message %>
+      
+      <button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+    </div>
+  </div>
+  <% end %>
+  
+  <div class="col-md-3 col-sm-4 col-xs-3 hidden-xs">
+    <div class="sidebar-title">Your Documents</div>
+    <div class="sidebar-items">
+      <div class="sidebar-item">
+        <a href="/" class="sidebar-link <%= "sidebar-item-active" if @sidebar_active.nil? %>">All</a>
+      </div>
+      <% @sidebar.map(&:pluralize).each_with_index do |category, i| %>
+        
+          <div class="sidebar-item <%="sidebar-item-active" if @sidebar_active == i.to_s %>">
+            <a href="/list/<%= @year_string %>/<%= i %>" class="sidebar-link"><%= category %></a>
+          </div>
+        
+      <% end %>
+    </div>
+  </div>
+  <div class="col-md-9 col-sm-8 col-xs-12">
+    <div class="filter-area clearfix">
+      
+      <div class="hidden-lg hidden-md hidden-sm dropdown filter-dropdown category-filter-dropdown">
+        <a href="#" data-toggle="dropdown"><div class="filter-button"><%= @sidebar_active.nil? ? "All Documents" : @sidebar[@sidebar_active.to_i] %>  <span class="caret"></span></div></a>
+        <ul class="dropdown-menu dropdown-menu-left">
+          <li role="presentation"><a class="<%= "active" if @category_string == "all" %>" href="/list/<%= @year_string %>/all">All Documents</a></li>
+          <li role="presentation" class="divider"></li>
+          <% @sidebar.map(&:pluralize).each_with_index do |category, i| %>
+          <li role="presentation"><a class="<%= "active" if @sidebar_active == i.to_s %>" href="/list/<%= @year_string %>/<%= i %>"><%= category %></a></li>
+          <% end %>
+        </ul>
+      </div>
+      
+      <div class="dropdown filter-dropdown year-filter-dropdown">
+        <a href="#" data-toggle="dropdown"><div class="filter-button"><%= @year_string == "all" ? "All Years" : @year_string %>  <span class="caret"></span></div></a>
+        <ul class="dropdown-menu dropdown-menu-right">
+          <li role="presentation"><a class="<%= "active" if @year_string == "all" %>" href="/list/all/<%= @category_string %>">All Years</a></li>
+          <li role="presentation" class="divider"></li>
+          <% @years.each do |year| %>
+          <li role="presentation"><a class="<%= @year_string %> <%= year %> [<%= @year_string == "all" %>] <%= "active" if @year_string == year.to_s %>" href="/list/<%= year %>/<%= @category_string %>"><%= year %></a></li>
+          <% end %>
+        </ul>
+      </div>
+      
+    </div>
+    
+    <% if @documents.empty? %>
+    
+      <div class="no-documents-message">There are no documents to display under the filters you selected.</div>
+    
+    <% end %>
+    
+    <% @documents.each do |d| %>
+        <div class="item" data-debug="<%= d.debug_details %>">
+          
+          <div class="item-icons">
+            <a class="item-icon-view" href="<%= d.view_link %>"><%= image_tag 'icons/eye.png' %></a>
+            <a clas="item-icon-download" href="<%= d.download_link %>"><%= image_tag 'icons/download.png' %></a>
+          </div>
+          
+          <div class="circle <%= d.category_class %>"></div>
+          <div class="item-name">
+            <%= d.display_title %>
+          </div>
+          
+          <div class="item-subtitle">
+            Uploaded on <%= d.upload_date %>
+          </div>
+
+        </div>
+    <% end %>
+  </div>
+</div>
+
+
+<div class="document-viewer-frame">
+  <iframe id="viewer-frame" allowtransparency="true"></iframe>
+</div>

@@ -1,0 +1,4 @@
+<%= form_tag url, method: "post", data: { confirm: "Are you sure you want to do this?" }, class: local_assigns[:form_class]  do %>
+  <input type="hidden" name="<%= name %>" value="<%= value %>">
+  <button class="<%= local_assigns[:button_class] %>"><%= raw text %></button>
+<% end %>

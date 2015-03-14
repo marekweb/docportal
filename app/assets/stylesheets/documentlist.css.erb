@@ -1,0 +1,259 @@
+@media (min-width: 1200px) {
+  .container {
+    width: 1120px;
+  }
+}
+
+.list {
+    width: 50%;
+    margin: 0 auto;
+}
+.item {
+    background-color: #ecf8ff;
+    padding: 16px;
+    margin: 16px 0;
+    border: 1px solid #9ad9fd;
+
+}
+.item-name {
+    font-weight: bold;
+    font-size: 15px;
+}
+.item-subtitle {
+  font-weight: 300;
+  margin-top: 4px;
+}
+a.item-link:link, a.item-link:visited {
+    text-decoration: none;
+    color: inherit;
+}
+.header {
+    height: 80px;
+    margin-bottom: 80px;
+    background-color: #4a5a6a;
+    z-index: 10;
+    position: relative
+}
+
+.logo {
+    margin-top: 25px;
+    width: auto;
+    max-height: 26px;
+}
+.circle {
+  -border-radius: 50%;
+  width: 45px;
+  height: 45px;
+  -background-color: #f17a7a;
+  float: left;
+  margin-left: -39px;
+  margin-right: 36px;
+  
+  background-size: cover;
+  background-position: center;
+}
+
+.circle.cat0 {
+  background-image: url(<%= asset_path("icons/line-graph.png") %>);
+}
+.circle.cat1 {
+  background-image: url(<%= asset_path("icons/suitcase.png") %>);
+
+}
+.circle.cat2 {
+  background-image: url(<%= asset_path("icons/dollars.png") %>);
+}
+.circle.cat3 {
+  background-image: url(<%= asset_path("icons/suitcase.png") %>);
+ 
+}
+.circle.cat4 {
+  background-image: url(<%= asset_path("icons/pie.png") %>);
+}
+
+.category-filter-dropdown {
+  float: left;
+  width: 48%;
+}
+
+
+.year-filter-dropdown {
+  float: right;
+  width: 96px;
+}
+
+
+.filter-button {
+  border: 1px solid #a4a4a4;
+  color: #a4a4a4;
+  border-radius: 1px;
+  padding: 6px 6px 6px 8px;
+  font-weight: 400;
+  text-align: center;
+}
+
+a .filter-button {
+  text-decoration: none;
+}
+
+.filter-button:hover, .filter-button.active {
+  background-color: rgba(0, 0, 0, 0.04);
+  text-decoration: none;
+}
+
+/* Sidebar menu items */
+
+.sidebar-title {
+  font-weight: 700;
+  text-transform: uppercase;
+  margin: -4px 0 26px;
+  font-size: 17px;
+}
+.sidebar-item {
+  margin: 12px 0;
+  font-size: 15px;
+  font-weight: 300;
+}
+.sidebar-item-active {
+  font-weight: 400;
+}
+
+a:hover, a:active, a:focus {
+  text-decoration: none;
+}
+.sidebar-link:link, .sidebar-link:visited {
+  color: inherit;
+  text-decoration: none;
+}
+.item-icons {
+  float: right;
+  margin-top: 7px;
+  margin-right: 16px;
+}
+.item-icons img {
+  width: 32px;
+  height: 32px;
+}
+
+.profile-dropdown {
+  cursor: pointer;
+}
+.profile-name {
+  color: white;
+  font-weight: 300;
+}
+
+.navbar-profile {
+  margin-top: 20px;
+  text-align: right;
+}
+
+.category-filter-dropdown .dropdown-menu,
+.year-filter-dropdown .dropdown-menu {
+  text-align: center;
+  min-width: 0;
+  border-radius: 3px;
+  width: 100%;
+}
+
+.filter-dropdown li a:hover {
+  background-color: transparent;
+  color: #45c1ff;
+}
+
+.year-filter-dropdown .active {
+  color: #45c1ff;
+  font-weight: 500;
+}
+
+.year-filter-dropdown .active:hover {
+  color: #45c1ff;
+}
+
+.profile-icon {
+  padding-top: 9px;
+  border: 1px solid white;
+  color: white;
+  border-radius: 50%;
+  margin-right: 18px;
+  display: inline-block;
+  width: 40px;
+  height: 40px;
+  text-align: center;
+}
+
+
+#viewer-frame {
+  position: fixed;
+  top: 0;
+  left: 0;
+  background-color: transparent;
+  border: none;
+  height: 100%;
+  width: 100%;
+  display: none;
+}
+
+.badge.notification-badge {
+  background-color: #ff5d5d;
+  height:16px;
+  width: 16px;
+
+  font-weight: 400;
+  line-height: inherit;
+  
+  position:relative;
+  top: -6px;
+  left: -7px;
+  
+  line-height: 16px;
+  padding: 0;
+}
+
+.item-icon-view {
+  margin-right: 5px;
+}
+
+.notification-icon {
+  margin-left: 18px;
+  max-height: 19px;
+  margin-right: -8px
+}
+
+.no-documents-message {
+  background: #f2dede;
+  border: 1px solid #ECC5CB;
+  padding: 10px 20px 10px 20px;
+  border-radius: 2px;
+  color: #b94a48;
+  font-size: 13px;
+  margin-top: 20px
+}
+
+@media only screen and (max-width : 768px) {
+  .header { margin-bottom: 20px }
+  .filter-area { margin-bottom: 19px }
+  .container { padding: 2px; }
+  .filter-dropdown {
+    width: 48%;
+  }
+  .item { margin: 11px 0; }
+}
+
+
+@media only screen and (max-width : 768px) {
+  .circle { display: none };
+}
+
+@media (max-width: 768px) {
+  .profile-name {
+    display: none;
+  }
+}
+
+@media only screen and (max-width : 768px) {
+  .year-filter-dropdown {
+    float: right;
+    width: 48%;
+  }
+}

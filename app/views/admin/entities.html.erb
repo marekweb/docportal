@@ -1,0 +1,45 @@
+<%= render partial: "common/navbar" %>
+
+<div class="container">
+  
+    <%= render partial: 'admin_menu' %>
+
+  
+  <%= form_tag "create_entity", class: "form form-inline" do %>
+<input type="text" name="name" class="form-control">
+<button class="btn btn-default">Add Entity</button>
+<% end %>
+
+<table class="table admin-entity-list">
+  <tr>
+    <th>
+      Name
+    </th>
+    <% (1..@number_of_funds).each do |i| %>
+      <th>Fund <%= i %></th>
+    <% end %>
+    <th>Delete</th>
+  </tr>
+<% @entities.each do |e| %>
+  <tr data-id="<%= e.id %>">
+  <td>
+    <input type="text" name="name" value="<%= e.name %>" class="form-control" data-initial-value="<%= e.name %>">
+    </td>
+    
+    <% (1..@number_of_funds).each do |i| %>
+    <td>
+      <% role = e.role_for(i) %>
+      <%= select_tag("fund[#{i}]", options_for_select(@fund_roles, role), :class => "form-control", :data => { 'initial-value' => role}) %>
+    </td>
+    <% end %>
+    
+    <td>
+    <%= render partial: "common/post_form_button", locals: { url: "/delete_entity", text: "&times;", name: "id", value: e.id, button_class: "btn btn-default btn-xs", form_class: "inline" } %>
+  </td>
+  </tr>
+<% end %>
+</table>
+
+<div class="message alert alert-info" role="alert"><%= flash[:error] %></div>
+
+
