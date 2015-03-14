@@ -10,8 +10,8 @@ class DocumentListController < ApplicationController
 
     @show_admin = current_user.admin?
 
-    @notification_count = 2
-    @notifications = BoxDocument.all.order(:upload_date).limit(2)
+    @notifications = BoxDocument.all.order(:upload_date).limit(6)
+    @notification_count = @notifications.count
 
     if params[:category].present? && params[:category] != "all"
       category = params[:category]
