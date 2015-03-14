@@ -13,7 +13,7 @@ class AuthController < ApplicationController
       u.authenticate(params[:password])
     end
     
-    if !user || !u.enabled
+    if !user || !user.enabled
       flash[:email] = params[:email]
       flash[:notice] = "Your credentials are incorrent."
       redirect_to :back
