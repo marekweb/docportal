@@ -9,7 +9,7 @@
         
         <span class="dropdown">
           <span class="profile-name" data-toggle="dropdown"><%= current_user.display_name %></span>
-          <ul class="dropdown-menu dropdown-menu-right">
+          <ul class="dropdown-menu">
             <li><a href="/logout">Logout</a></li>
           </ul>
 
@@ -24,7 +24,7 @@
             <span class="badge notification-badge"><%= @notification_count if @notification_count > 0 %></span>
           </span>
           <% if @notifications.any? %>
-          <ul class="dropdown-menu">
+          <ul class="dropdown-menu dropdown-menu-right">
             <% @notifications.each_with_index do |n,i| %>
               <li class="dropdown-header">Added on <%= n.upload_date %></li></li>
               <li><a href="#"><%= n.display_title %></a></li>
