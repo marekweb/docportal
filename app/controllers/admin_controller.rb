@@ -9,7 +9,10 @@ class AdminController < ApplicationController
     generated_password = Devise.friendly_token.first(16) 
     @user.password = generated_password
     @user.password_confirmation = generated_password
-    @user.token = generated_password
+    
+    # Set the reset_password_token but leave reset_password_expires_at nil
+    # When expiry is nil then it never expires, which is desired for user creation
+    @user.reset_password_token = generated_password
     @user.save
     
     if @user.errors.any?
