@@ -1,6 +1,5 @@
 class Categorizer
   
-  #Categories = ["Quarterly Report", "Capital Call", "Tax Document", "FATCA Document"].map(&:downcase).map(&:singularize)
   Categories = ["Quarterly Report", "Capital Call", "Distribution", "Account Statement", "Financial Statement", "LP Report", "Tax Document", "FATCA Document", "Meeting Minutes"]
   FundTags = ["Main", "Parallel"].map(&:downcase)
   VisibilityTags = ["LPs", "Advisors", "Entities"].map(&:downcase).map(&:singularize)
@@ -16,6 +15,7 @@ class Categorizer
   
   def year
     @path.find do |p|
+      # Pattern for detecting a year: "20XX"
       return p.to_i if /\A20\d\d\Z/.match p.strip
     end
     
@@ -39,6 +39,7 @@ class Categorizer
   def month
     @path.each do |p|
       p = p.capitalize
+      # Pattern for detecting months: case insensitive full names of months
       Date::MONTHNAMES.each_with_index do |m, i|
         return i if p == m
       end
@@ -49,6 +50,7 @@ class Categorizer
   
   def quarter
     @path.each do |p|
+      # Pattern for matching quarters, case insensitive: Q1, Q2, Q3, Q4
       return p[1].to_i if /\A[Qq]\s?[1-4]\Z/.match(p)
     end
     
