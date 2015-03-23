@@ -30,7 +30,7 @@ class Categorizer
     return nil if entities_folder_index.nil?
     
     # Skip if the "Entities" folder is the last element in the path
-    return nil if entities_folder_index = @path.length - 1
+    return nil if entities_folder_index == @path.length - 1
     
     # Return the name of the folder directly following "Entities"
     return @path[entities_folder_index + 1].downcase
@@ -59,6 +59,7 @@ class Categorizer
   
   def fund
     @path.each do |p|
+      # Pattern for matching fund, case insentitive: "Fund X" where X is a digit
       return p[5].to_i if /\A[Ff]und [1-9]\Z/.match(p)
     end
     
@@ -84,7 +85,6 @@ class Categorizer
   end
         
   def category_id
-    results = []
     
     @path.each do |p|
       p = p.downcase.singularize
