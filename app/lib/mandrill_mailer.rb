@@ -6,7 +6,7 @@ class MandrillMailer
     
     merge_vars = {
       "fname" => user.first_name,
-      "href" => 'https://' + ENV['HOSTNAME'] + '/select_password?q=' + user.reset_password_token,
+      "href" => 'https://' + ENV['HOSTNAME'] + '/select_password?token=' + user.reset_password_token,
       "email" => user.email,
       "logo_url" => 'https://' + ENV['HOSTNAME'] + '/assets/real-ventures.png'
     }
