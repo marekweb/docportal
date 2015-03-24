@@ -28,7 +28,7 @@
     <th>First Name</th>
     <th>Last Name</th>
     <th>Entity</th>
-
+    <th>Last Login</th>
     <th></th>
     <th></th>
   </tr>
@@ -42,7 +42,15 @@
     <td>
       <%= select_tag("user[entity_id]", options_for_select((["&mdash;".html_safe] + @entities.map(&:name)).zip([""] + @entities.map(&:id)), u.entity_id), class: "form-control", disabled: ("disabled" if !u.enabled)) %>
     </td>
-    
+
+    <td class="padded-cell">
+      <small>
+      <% if u.last_sign_in_at.nil? && u.reset_password_token.present? %>Has not activated<% end %>
+      <% if u.last_sign_in_at.nil? && u.reset_password_token.nil? %>Never logged in<% end %>
+      <% if u.last_sign_in_at.present? %><%= u.last_sign_in_at.in_time_zone.strftime('%Y-%m-%d') %><% end %>
+      </small>
+    </td>  
+
     <td>
       <div class="row-buttons">
         <% if !u.admin? %>
@@ -62,6 +70,8 @@
       <% if u.admin? %>
       <div class="badge">Admin</div>
       <% end %>
+
+      
     </td>
   </tr>
   <% end %>
