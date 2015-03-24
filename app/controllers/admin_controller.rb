@@ -17,7 +17,13 @@ class AdminController < ApplicationController
     
     if @user.errors.any?
       flash[:notice] = @user.errors.full_messages.to_sentence.capitalize + '.'
+    else
+      # User was created. 
+      # Trigger email
+      MandrillMailer.send_activation @user
     end
+    
+
     
     redirect_to "/users"
   end

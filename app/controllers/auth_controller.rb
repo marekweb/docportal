@@ -18,6 +18,8 @@ class AuthController < ApplicationController
       flash[:notice] = "Your credentials are incorrect."
       redirect_to :back
     else
+      user.last_sign_in_at = DateTime.now
+      user.save
       session[:user_id] = user.id
       redirect_to redirect_param || "/"
     end
