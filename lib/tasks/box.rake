@@ -26,6 +26,7 @@ namespace :box do
       perform_sync_task
     rescue Exception => e
       SyncEntry.record_sync_failure(e.message)
+      puts "#{e.class}: #{e.message}"
     end
     
   end
