@@ -65,9 +65,9 @@ namespace :box do
     puts "created: #{created_box_ids}"
     puts "destroyed: #{destroyed_box_ids}"
     
-    created_box_ids.each do |id|
-      
-      f = synced_file_hash[id]
+    box_document_objects = []
+    
+    synced_files.each do |f|
       
       categorizer = Categorizer.new(f)
 
@@ -88,8 +88,9 @@ namespace :box do
       download_url = f.download_url
       box_view_id = BoxViewClient.convert_document(download_url)
       
-      box_document = BoxDocument.new({
-        box_file_id: f.id,
+      box_document = BoxDocument.find_or_create_by({box_file_id: f.id})
+      
+      box_document.assign_attributes({
         name: f.name,
         category: category_id,
         year: year,
@@ -106,7 +107,6 @@ namespace :box do
       
       puts "Saving BoxDocument for #{f.name}"
       box_document.save
-      
       
     end
     
