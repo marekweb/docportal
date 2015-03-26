@@ -36,27 +36,6 @@ class DocumentListController < ApplicationController
     @years = BoxDocument.where('year IS NOT NULL').select("DISTINCT year").map(&:year).sort.reverse
     @sidebar = Categorizer::Categories
 
-    # @sidebar = [
-    #   'Capital Calls & Dist.',
-    #   'Account Statements',
-    #   'Financial Statements',
-    #   'LP Reports',
-    #   'Legal Docs',
-    #   'Tax & FATCA'
-    #   ]
-
-
-    #   @category_groupings = [
-    #   'Capital Calls & Dist.',
-    #   'Account Statements',
-    #   'Financial Statements',
-    #   'LP Reports',
-    #   'Legal Docs',
-    #   'Tax & FATCA'
-    #   ]
-    
-    #@fund_roles = DocumentFilter.find_documents_visible_to_user current_user
-
   end
 
 end
