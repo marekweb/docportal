@@ -25,9 +25,10 @@ class SyncEntry < ActiveRecord::Base
     
   end
   
-  def self.record_sync_failure(message)
+  def self.record_sync_failure(ex)
     sync_entry = self.last_incomplete_sync
-    sync_entry.failure = message
+    sync_entry.failure = "#{ex.class} #{ex.message}"
+    sync_entry.save
   end
   
 end
