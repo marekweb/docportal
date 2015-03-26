@@ -17,6 +17,8 @@ class DocumentFilter
         visibility_tag = "lp"
         fund_tag = "parallel"
       elsif fm.role == "advisor"
+        # Category 4 is Advisory documents
+        documents.merge BoxDocument.where(fund: f.fund, category_id: 4)
         visibility_tag = "advisor"
         fund_tag = nil
       else

@@ -84,7 +84,7 @@ class BoxViewClient
   
     if id.nil?
       self.logger.debug("Convert document did not succeed")
-      self.logger.debug("Response status=#{respone.status}")
+      self.logger.debug("Response status=#{response.status}")
       self.logger.debug(response.body)
     end
 
