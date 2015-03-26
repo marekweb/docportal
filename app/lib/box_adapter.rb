@@ -23,7 +23,7 @@ class BoxAdapter
     self.create_client_from_session(box_session)
   end
 
-  def self.create_fresh_client_from_box_accuess!(box_access)
+  def self.create_fresh_client_from_box_access!(box_access)
     self.refresh_box_access!(box_access)
     self.create_client_from_box_access(box_access)
   end
