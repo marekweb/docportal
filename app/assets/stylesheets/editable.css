@@ -3,8 +3,12 @@
   padding: 0 4px;
 }
 
+.user-row.second-row td {
+  padding-bottom: 20px;
+}
+
 .user-row td {
-  padding-bottom: 10px;
+  padding-bottom: 6px;
 }
 
 .user-row-create td {
