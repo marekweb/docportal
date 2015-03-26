@@ -84,8 +84,9 @@
           </div>
            <% if @current_user.admin? %>
             <div class="debug">
+                <%= "Fund #{d.fund}." if d.fund.present? %>
                 <%= "Visible to #{d.visibility_tag}." if d.visibility_tag.present? %>
-                <%= "(#{d.entity_name})" if d.entity_name.present?%><br>
+                <%= "(#{d.entity_name})" if d.entity_name.present?%>
                 <%= d.name %>
             </div>
             <% end %>
