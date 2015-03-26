@@ -105,6 +105,8 @@ class Categorizer
   end
   
   def self.extract_filing_date(file)
+    warn "Categorizer.extract_filing_date is deprecated"
+    
     path = self.extract_path_entries(file)
     filing_year = nil
     filing_month = nil
@@ -123,7 +125,9 @@ class Categorizer
   end
   
   def self.extract_path_entries(file)
+    warn "Categorizer.extract_path_entries is deprecated"
     file.path_collection.entries.map{ |e| e["name"] }
   end
+  
   
 end
