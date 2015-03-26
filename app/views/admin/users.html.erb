@@ -28,8 +28,6 @@
     <th>First Name</th>
     <th>Last Name</th>
     <th>Entity</th>
-    <th>Last Login</th>
-    <th></th>
     <th></th>
   </tr>
   
@@ -42,28 +40,8 @@
     <td>
       <%= select_tag("user[entity_id]", options_for_select((["&mdash;".html_safe] + @entities.map(&:name)).zip([""] + @entities.map(&:id)), u.entity_id), class: "form-control", disabled: ("disabled" if !u.enabled)) %>
     </td>
-
-    <td class="padded-cell">
-      <small>
-      <% if u.last_sign_in_at.nil? && u.reset_password_token.present? %>Has not activated<% end %>
-      <% if u.last_sign_in_at.nil? && u.reset_password_token.nil? %>Never logged in<% end %>
-      <% if u.last_sign_in_at.present? %><%= u.last_sign_in_at.in_time_zone.strftime('%Y-%m-%d') %><% end %>
-      </small>
-    </td>  
-
     <td>
-      <div class="row-buttons">
-        <% if !u.admin? %>
-          <% if u.enabled  %>
-            <%= post_form_button "De-activate User", "/toggle_user_enabled", "id", u.id, button_class: 'btn btn-success btn-sm' %>
-          <% else %>
-            <%= post_form_button "Activate User", "/toggle_user_enabled", "id", u.id, button_class: 'btn btn-error btn-sm' %>
-          <% end %>
-        <% end %>
-      </div>
-    </td>
-    <td>
-      <% if !u.enabled %>
+       <% if !u.enabled %>
       <div class="badge">Disabled</div>
       <% end %>
       
@@ -71,8 +49,36 @@
       <div class="badge">Admin</div>
       <% end %>
 
-      
     </td>
+
+
+  </tr>
+  <tr class="user-row second-row">
+    
+    <td colspan="1">
+      <div class="row-buttons">
+        <% if !u.admin? %>
+          <% if u.enabled  %>
+            <%= post_form_button "De-activate User", "/toggle_user_enabled", "id", u.id, button_class: 'btn  btn-sm' %>
+          <% else %>
+            <%= post_form_button "Activate User", "/toggle_user_enabled", "id", u.id, button_class: 'btn  btn-sm' %>
+          <% end %>
+        <% end %>
+      </div>
+    </td>
+    
+    <td>
+      <% if u.current_sign_in_at.nil? && !u.admin? %>
+          <%= post_form_button  u.activation_sent_at.present? ? "Resend Activation" : "Send Activation", '/send_activation', "id", u.id, button_class: 'btn btn-sm' %>
+      <% end %>
+    </td>
+    
+    <td class="padded-cell">
+      <small><%= u.login_status_string if !u.admin? %> </td></small>
+    </td>
+    
+
+
   </tr>
   <% end %>
   

@@ -2,16 +2,20 @@ require 'mandrill'
 
 class MandrillMailer
   
-  def self.send_activation user
+  def self.send_activation(user)
     
     merge_vars = {
       "fname" => user.first_name,
-      "href" => 'https://' + ENV['HOSTNAME'] + '/select_password?token=' + user.reset_password_token,
+      "href" => 'https://' + ENV['HOSTNAME'] + '/activate_password?token=' + user.activation_token,
       "email" => user.email,
       "logo_url" => 'https://' + ENV['HOSTNAME'] + '/assets/real-ventures.png'
     }
     
     self.send_template "lp-portal-account-creation", user.display_name, user.email, merge_vars
+    
+    user.activation_sent_at = DateTime.now
+    user.save
+    
   end
   
   def self.send_template(template_name, recipient_name, recipient_email, merge_hash)
@@ -26,11 +30,11 @@ class MandrillMailer
     
     begin
       message = {
-        "subject"=>"example subject",
+        #"subject"=>"example subject",
         "merge_language"=>"mailchimp",
         "merge"=>true,
         "global_merge_vars"=> merge_vars,
-        "images" => [real_logo_image],
+        "images" => [],#[real_logo_image],
     
         #"headers"=>{"Reply-To"=>"admin@realventures.com"},
         "auto_text"=>true,

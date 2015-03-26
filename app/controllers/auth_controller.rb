@@ -18,9 +18,8 @@ class AuthController < ApplicationController
       flash[:notice] = "Your credentials are incorrect."
       redirect_to :back
     else
-      user.last_sign_in_at = DateTime.now
-      user.save
       session[:user_id] = user.id
+      user.mark_sign_in!
       redirect_to redirect_param || "/"
     end
   end
@@ -37,7 +36,7 @@ class AuthController < ApplicationController
   def reset_password
     @email = params[:email]
     u = User.find_by(email: @email)
-    if u.present?
+    if u.present? && u.enabled
       u.reset_password_token = Devise.friendly_token.first(16) 
       u.reset_password_sent_at = DateTime.now
       u.save
@@ -46,7 +45,7 @@ class AuthController < ApplicationController
       # TODO
       
       flash[:notice] = "A message was sent to #{@email} with instructions."
-      redirect_to '/'
+      redirect_to '/login'
     else
       flash[:notice] = "No account was found with that email address."
       redirect_to :back
@@ -58,13 +57,14 @@ class AuthController < ApplicationController
     @token = params[:token]
     return redirect_password_reset_error if @token.nil?
 
-    @user = User.find_by(reset_password_token: @token)
+    @user = User.find_by(reset_password_token: @token) 
     return redirect_password_reset_error if @user.nil?
     
     # If reset_password_set_at field is set, then check it against the expiry period.
     # If reset_password_set_at field is NOT set, then there's no expiry for this token.
-    return redirect_password_reset_error if @user.reset_password_sent_at.present? && @user.reset_password_sent_at >= 24.hours.ago
+    return redirect_password_reset_error if @user.reset_password_sent_at.present? && @user.reset_password_sent_at <= 24.hours.ago
     
+    @post_action = '/select_password'
     
   end
   
@@ -74,16 +74,62 @@ class AuthController < ApplicationController
     return redirect_password_reset_error if @token.nil?
     @user = User.find_by(reset_password_token: @token)
     return redirect_password_reset_error if @user.nil?
+    return redirect_password_reset_error if @user.reset_password_sent_at.present? && @user.reset_password_sent_at <= 24.hours.ago
 
     @user.password = params[:password]
     @user.password_confirmation = params[:password_confirmation]
     @user.reset_password_token = nil
+    @user.reset_password_sent_at = nil
     @user.save
     
-    # Allow to login the user directly
-    session[:user_id] = @user.id
-    redirect_to '/'
+    if @user.errors.any?
+      flash[:notice] = @user.error_sentence
+      redirect_to :back
+    else
+      # Allow to login the user directly
+      session[:user_id] = @user.id
+      @user.mark_sign_in!
+      redirect_to '/'
+    end
+  end
+  
+  def activate_password_page
+    @token = params[:token]
+    return redirect_password_reset_error if @token.nil?
+
+    @user = User.find_by(activation_token: @token) 
+    return redirect_password_reset_error if @user.nil?
     
+    # Expiry period
+    #return redirect_password_reset_error if @user.activation_sent_at.present? && @user.activation_sent_at <= 24.hours.ago
+    
+    @post_action = '/activate_password'
+    render :select_password_page
+  end
+  
+  
+  def activate_password
+    @token = params[:token]
+    return redirect_password_reset_error if @token.nil?
+    @user = User.find_by(activation_token: @token)
+    return redirect_password_reset_error if @user.nil?
+    #return redirect_password_reset_error if @user.activation_sent_at.present? && @user.activation_sent_at <= 24.hours.ago
+
+    @user.password = params[:password]
+    @user.password_confirmation = params[:password_confirmation]
+    @user.activation_token = nil
+    @user.save
+    
+    if @user.errors.any?
+      flash[:notice] = @user.error_sentence
+      redirect_to :back
+    else
+      # Allow to login the user directly
+      session[:user_id] = @user.id
+      @user.mark_sign_in!
+
+      redirect_to '/'
+    end
   end
 
   def redirect_password_reset_error

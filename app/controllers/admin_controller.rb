@@ -6,23 +6,23 @@ class AdminController < ApplicationController
   def create_user
     @user = User.new(params.require(:user).permit(:email, :first_name, :last_name))
     
-    generated_password = Devise.friendly_token.first(16) 
-    @user.password = generated_password
-    @user.password_confirmation = generated_password
+    @user.generate_activation_token
     
-    # Set the reset_password_token but leave reset_password_expires_at nil
-    # When expiry is nil then it never expires, which is desired for user creation
-    @user.reset_password_token = generated_password
+    # Set the password just to be able to save the user
+    @user.password = @user.password_confirmation = @user.activation_token
+    
     @user.save
     
     if @user.errors.any?
       flash[:notice] = @user.errors.full_messages.to_sentence.capitalize + '.'
+      puts "ERROR " +flash[:notice]
     else
       # User was created. 
-      # Trigger email
-      MandrillMailer.send_activation @user
+      # Immediately send the activation mail?
+      
+      # Commented out, because the email is not sent right away
+      #MandrillMailer.send_activation @user
     end
-    
 
     
     redirect_to "/users"
@@ -79,7 +79,7 @@ class AdminController < ApplicationController
   end
   
   def create_entity
-    name = params[:name]
+    name = params[:name].strip
     return redirect_to "/entities" if name.length == 0
     return redirect_to "/entities" if Entity.exists?(name: name)
     entity = Entity.create({name: name})
@@ -133,6 +133,17 @@ class AdminController < ApplicationController
       u.save
     end
     redirect_to :back
+  end
+  
+  def send_activation
+    id = params[:id]
+    User.find(id).try do |u|
+      # If the user has already signed in then activation should not happen again
+      if u.current_sign_in_at.nil?
+        MandrillMailer.send_activation(u)
+      end
+    end
+    redirect_to '/users'
   end
     
   private

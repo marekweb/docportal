@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150227171911) do
+ActiveRecord::Schema.define(version: 20150326032938) do
 
   create_table "box_accesses", force: true do |t|
     t.string   "token"
@@ -99,6 +99,8 @@ ActiveRecord::Schema.define(version: 20150227171911) do
     t.string   "password_digest"
     t.integer  "entity_id"
     t.boolean  "enabled",                default: true
+    t.datetime "activation_sent_at"
+    t.string   "activation_token"
   end
 
   add_index "users", ["email"], name: "index_users_on_email", unique: true

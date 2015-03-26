@@ -1,14 +1,11 @@
 class User < ActiveRecord::Base
-  # Include default devise modules. Others available are:
-  # :confirmable, :lockable, :timeoutable and :omniauthable
-  # devise :database_authenticatable, :registerable,
-  #       :recoverable, :rememberable, :trackable, :validatable
-  
+
   has_secure_password
   
   validates :email, presence: true, uniqueness: true
   validates :first_name, presence: true
   validates :last_name, presence: true
+  validates :password, length: { minimum: 8 }
   
   belongs_to :entity
   has_many :fund_memberships, through: :entity
@@ -23,6 +20,43 @@ class User < ActiveRecord::Base
   
   def admin?
     return id == 1
+  end
+  
+  def mark_sign_in!
+    last_sign_in_at = current_sign_in_at
+    current_sign_in_at = DateTime.now
+    sign_in_count ||= 0
+    sign_in_count += 1
+    save
+  end
+  
+  def generate_activation_token
+    self.activation_token = Devise.friendly_token.first(16) 
+  end
+  
+  def login_status_string
+    if current_sign_in_at.present?
+      return "Last login " + current_sign_in_at.in_time_zone.strftime('%Y-%m-%d')
+    else
+      if activation_sent_at.present?
+        if activation_token.present?
+          return "Activation email sent " + activation_sent_at.in_time_zone.strftime('%Y-%m-%d')
+        else
+          return "Activated but not logged in"
+        end
+      else
+        return "Activation email not sent"
+      end
+    end
+    
+  end
+  
+  def error_sentence
+    if errors.any?
+      errors.full_messages.to_sentence.capitalize + '.'
+    else
+      ""
+    end
   end
   
 end

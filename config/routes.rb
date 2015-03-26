@@ -11,10 +11,13 @@ Rails.application.routes.draw do
   
   get 'select_password' => 'auth#select_password_page'
   post 'select_password' => 'auth#select_password'
+  get 'activate_password' => 'auth#activate_password_page'
+  post 'activate_password' => 'auth#activate_password'
   
   get 'admin', to: redirect('/users')
 
   post 'toggle_user_enabled' => 'admin#toggle_user_enabled'
+  post 'send_activation' => 'admin#send_activation'
   post 'set_notifications' => 'admin#set_notifications'
   
   get "list" => "document_list#document_list"
@@ -27,23 +30,6 @@ Rails.application.routes.draw do
   
   get 'box_login' => 'box_access#box_login'
   get 'box_redirect' => 'box_access#box_redirect'
-  
-  # get 'box_view_upload' => 'auth#box_view_upload'
-  # get 'box_view_documents' => 'auth#box_view_documents'
-  # get 'box_view_create_session' => 'auth#box_view_create_session'
-  
-  # get 'box_sync' => 'auth#box_sync'
-  
-  #get 'view' => 'auth#view'
-  
-  # get 'convert' => 'auth#convert'
-  
-  # get 'adapter' => 'auth#adapter' # not useful
-  
-
-  # post 'get_view_session' => 'auth#box_get_view_session'
-  
-  # get 'doc_viewer' => 'auth#doc_viewer'
   
   get 'sync' => 'admin#sync'
   get 'users' => 'admin#users'
