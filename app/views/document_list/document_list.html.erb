@@ -76,8 +76,8 @@
           <div class="circle <%= d.category_class %>"></div>
           <div class="item-name">
             <%= d.display_title %>
-            <% if @user.admin? %>
-              <small>
+            <% if @current_user.admin? %>
+              <small class="debug">
                 <% "Visible to #{d.visibility_tag}." if d.visibility_tag.present? %>
                 <%= "(#{d.entity_name})" if d.entity_name.present?%><br>
                 <%= d.name %></small>
