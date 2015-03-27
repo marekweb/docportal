@@ -5,7 +5,7 @@ class Entity < ActiveRecord::Base
 
   def role_for(fund)
     fm = FundMembership.find_by(entity_id: id, fund: fund)
-    return fm.try(:role)
+    fm.try(:role)
   end
 
   def self.normalize_name(name)

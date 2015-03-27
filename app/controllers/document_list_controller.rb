@@ -1,5 +1,4 @@
 class DocumentListController < ApplicationController
-
   before_action :restrict_to_user
 
   def index
@@ -7,24 +6,23 @@ class DocumentListController < ApplicationController
   end
 
   def document_list
-
     @show_admin = current_user.admin?
 
     @notifications = current_user.visible_documents.order(:upload_date).limit(6)
     @notification_count = @notifications.count
-    
+
     @documents = current_user.visible_documents
 
-    if params[:category].present? && params[:category] != "all" && params[:category] != "advisor"
+    if params[:category].present? && params[:category] != 'all' && params[:category] != 'advisor'
       category = params[:category]
       @documents = @documents.where(category: category)
       @sidebar_active = category
       @category_string = category
-    elsif params[:category] == "advisor"
-      category = "advisor"
-      @documents = BoxDocuments.where(visibility_tag: "advisor")
+    elsif params[:category] == 'advisor'
+      category = 'advisor'
+      @documents = BoxDocuments.where(visibility_tag: 'advisor')
     else
-      @category_string = "all"
+      @category_string = 'all'
     end
 
     if params[:year].present?
@@ -34,12 +32,10 @@ class DocumentListController < ApplicationController
         @documents = @documents.where(year: year)
       end
     else
-      @year_string = "all"
+      @year_string = 'all'
     end
 
-    @years = BoxDocument.where('year IS NOT NULL').select("DISTINCT year").map(&:year).sort.reverse
+    @years = BoxDocument.where('year IS NOT NULL').select('DISTINCT year').map(&:year).sort.reverse
     @sidebar = Categorizer::Categories
-
   end
-
 end

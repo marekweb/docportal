@@ -1,49 +1,46 @@
 class Categorizer
-  
-  Categories = ["Quarterly Report", "Capital Call", "Distribution", "Account Statement", "Financial Statement", "LP Report", "Tax Document", "FATCA Document", "Meeting Minutes"]
-  FundTags = ["Main", "Parallel"].map(&:downcase)
-  VisibilityTags = ["LPs", "Advisors", "Entities"].map(&:downcase).map(&:singularize)
-  
-  FinancialStatement = Categories.index("Financial Statement")
+  Categories = ['Quarterly Report', 'Capital Call', 'Distribution', 'Account Statement', 'Financial Statement', 'LP Report', 'Tax Document', 'FATCA Document', 'Meeting Minutes']
+  FundTags = %w(Main Parallel).map(&:downcase)
+  VisibilityTags = %w(LPs Advisors Entities).map(&:downcase).map(&:singularize)
 
-  
+  FinancialStatement = Categories.index('Financial Statement')
+
   def self.fetch_existing_box_documents(file_objects)
     id_list = file_objects.map(&:id)
     BoxDocument.find(id_list)
   end
-  
+
   def initialize(box_file)
-    @path = box_file.path_collection.entries.map{ |e| e["name"] }
+    @path = box_file.path_collection.entries.map { |e| e['name'] }
   end
-  
+
   def year
     @path.find do |p|
       # Pattern for detecting a year: "20XX"
       return p.to_i if /\A20\d\d\Z/.match p.strip
     end
-    
-    
-    return nil
+
+    nil
   end
-  
+
   def entity_name
     # Entity names are taken to be a folder name directly below the "Entities" folder
-    puts "Parsing entity name..."
-    entities_folder_index = @path.find_index { |p| p.downcase == "entities" }
+    puts 'Parsing entity name...'
+    entities_folder_index = @path.find_index { |p| p.downcase == 'entities' }
     puts "Entity folder index #{entities_folder_index}"
     # Skip if there is no "Entities" folder in the path
     return nil if entities_folder_index.nil?
-    
+
     # Skip if the "Entities" folder is the last element in the path
     return nil if entities_folder_index == @path.length - 1
-    
+
     # Return the name of the folder directly following "Entities"
     entity_name = @path[entities_folder_index + 1].downcase
-    puts "Found entity name"
-    
+    puts 'Found entity name'
+
     entity_name
   end
-  
+
   def month
     @path.each do |p|
       p = p.capitalize
@@ -52,82 +49,77 @@ class Categorizer
         return i if p == m
       end
     end
-    
-    return nil
+
+    nil
   end
-  
+
   def quarter
     @path.each do |p|
       # Pattern for matching quarters, case insensitive: Q1, Q2, Q3, Q4
       return p[1].to_i if /\A[Qq]\s?[1-4]\Z/.match(p)
     end
-    
-    return nil
+
+    nil
   end
-  
+
   def fund
     @path.each do |p|
       # Pattern for matching fund, case insentitive: "Fund X" where X is a digit
       return p[5].to_i if /\A[Ff]und [1-9]\Z/.match(p)
     end
-    
-    return nil
+
+    nil
   end
-  
+
   def fund_tag
     @path.each do |p|
       p = p.downcase
-      return p if FundTags.index(p) != nil
+      return p unless FundTags.index(p).nil?
     end
-    
-    return nil
+
+    nil
   end
-  
+
   def visibility_tag
     @path.each do |p|
       p = p.downcase.singularize
-      return p if VisibilityTags.index(p) != nil
+      return p unless VisibilityTags.index(p).nil?
     end
-    
-    return nil
+
+    nil
   end
-        
+
   def category_id
-    
     @path.each do |p|
       p = p.downcase.singularize
       i = Categories.map(&:downcase).map(&:singularize).index(p)
       return i if i.present?
     end
-    
-    return nil
 
+    nil
   end
-  
+
   def self.extract_filing_date(file)
-    warn "Categorizer.extract_filing_date is deprecated"
-    
-    path = self.extract_path_entries(file)
+    warn 'Categorizer.extract_filing_date is deprecated'
+
+    path = extract_path_entries(file)
     filing_year = nil
     filing_month = nil
-    
+
     path.each do |p|
       filing_year = p if /^20\d{2}$/.match p
       filing_month = p if Date::MONTHNAMES.include? p
     end
-    
+
     if filing_year.present? && filing_month.present?
       return filing_year.to_i, Date::MONTHNAMES.index(filing_month)
     else
       return nil, nil
     end
-    
   end
-  
+
   def self.extract_path_entries(file)
-    warn "Categorizer.extract_path_entries is deprecated"
-    file.path_collection.entries.map{ |e| e["name"] }
+    warn 'Categorizer.extract_path_entries is deprecated'
+    file.path_collection.entries.map { |e| e['name'] }
   end
-  
-  
 end

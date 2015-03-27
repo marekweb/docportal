@@ -7,7 +7,7 @@
 #   Mayor.create(name: 'Emanuel', city: cities.first)
 
 if ENV['ADMIN_PASSWORD'].nil?
-  throw "Need to set ADMIN_PASSWORD for this task, to create admin user"
+  throw 'Need to set ADMIN_PASSWORD for this task, to create admin user'
 end
 
-admin_user = User.create!({first_name: "Real Ventures", last_name: "Admin", email: "admin@realventures.com", password: ENV['ADMIN_PASSWORD']})
+admin_user = User.create!(first_name: 'Real Ventures', last_name: 'Admin', email: 'admin@realventures.com', password: ENV['ADMIN_PASSWORD'])
