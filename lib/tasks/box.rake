@@ -80,6 +80,7 @@ namespace :box do
       fund_tag = categorizer.fund_tag
       visibility_tag = categorizer.visibility_tag
       entity_name = (categorizer.entity_name if visibility_tag == "entity")
+      visible_name = categorizer.visible_name?
 
       puts "fund #{fund.class} #{fund}"
       puts "fund_tag #{fund_tag.class} #{fund_tag}"
@@ -111,6 +112,7 @@ namespace :box do
         visibility_tag: visibility_tag,
         upload_date: f.created_at,
         box_view_id: box_view_id,
+        visible_name: visible_name,
         etag: f.etag
       })
       

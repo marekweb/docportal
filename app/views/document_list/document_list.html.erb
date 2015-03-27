@@ -1,7 +1,7 @@
 <%= render partial: "common/navbar.html" %>
 
 <!--
-  <%= @current_user.fund_memberships.to_json %>
+  <%= @current_user.fund_memberships.pluck(:fund, :role) %>
 -->
 
 <div class="container">

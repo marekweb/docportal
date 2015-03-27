@@ -4,9 +4,6 @@ class Categorizer
   FundTags = ["Main", "Parallel"].map(&:downcase)
   VisibilityTags = ["LPs", "Advisors", "Entities"].map(&:downcase).map(&:singularize)
   
-  FinancialStatement = Categories.index("Financial Statement")
-
-  
   def self.fetch_existing_box_documents(file_objects)
     id_list = file_objects.map(&:id)
     BoxDocument.find(id_list)
@@ -24,6 +21,10 @@ class Categorizer
     
     
     return nil
+  end
+  
+  def visible_name?
+    @path.last.downcase.include? 'wildcard'
   end
   
   def entity_name

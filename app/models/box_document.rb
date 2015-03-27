@@ -1,6 +1,11 @@
 class BoxDocument < ActiveRecord::Base
   
   def display_title
+    
+    if visible_name
+      return name.tr('_', ' ').titleize
+    end
+    
     if category.nil?
       title = "Document"
     else
