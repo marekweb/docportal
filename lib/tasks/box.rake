@@ -90,7 +90,7 @@ namespace :box do
       
       box_document = BoxDocument.find_or_create_by({box_file_id: f.id})
       
-      if box_view_id.nil? || box_document.etag != f.etag
+      if box_document.box_view_id.nil? || box_document.etag != f.etag
         puts "File contents are new or changed. Converting"
         box_view_id = BoxViewClient.convert_document(download_url)
         # Delay for rate limit
