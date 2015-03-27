@@ -4,7 +4,7 @@ class DocumentFilter
     fund_memberships = user.fund_memberships
     
     # fund_membership is an array of items in the form of [fund:integer, role:string]
-    document_relations []
+    document_relations = []
     
     fund_memberships.each do |fm|
       
