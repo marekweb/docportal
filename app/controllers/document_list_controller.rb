@@ -17,14 +17,17 @@ class DocumentListController < ApplicationController
     
     @show_advisor_category = @documents.where(visibility_tag: "advisor").any?
 
-    if params[:category].present? && params[:category] != "all" && params[:category] != "advisor"
+    if params[:category].present? && !%w(all other advisor).include?(params[:category])
       category = params[:category]
       @documents = @documents.where(category: category)
       @sidebar_active = category
       @category_string = category
     elsif params[:category] == "advisor"
       category = "advisor"
-      @documents = @documents.where(visibility_tag: "advisor")
+      @documents = @documents.where(visibility_tag: "advisor", visible_name: true)
+    elsif params[:category] == "other"
+      category = "other"
+      @category = @documents.where(visible_name: true).not(visibility_tag: "advisor")
     else
       @category_string = "all"
     end
@@ -40,7 +43,11 @@ class DocumentListController < ApplicationController
     end
 
     @years = BoxDocument.where('year IS NOT NULL').select("DISTINCT year").map(&:year).sort.reverse
-    @sidebar = Categorizer::Categories
+    @sidebar = Categorizer::Categories + ["Other Documents"]
+    
+    if @current_user.advisor?
+      @sidebar += ["Other Advisor Documents"]
+    end
 
   end
 
