@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150326032938) do
+ActiveRecord::Schema.define(version: 20150327014739) do
 
   create_table "box_accesses", force: true do |t|
     t.string   "token"
@@ -39,6 +39,7 @@ ActiveRecord::Schema.define(version: 20150326032938) do
     t.string   "fund_tag"
     t.string   "visibility_tag"
     t.string   "entity_name"
+    t.boolean  "visible_name"
   end
 
   create_table "document_views", force: true do |t|
