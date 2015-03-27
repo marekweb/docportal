@@ -14,6 +14,8 @@ class DocumentListController < ApplicationController
     @notification_count = @notifications.count
     
     @documents = current_user.visible_documents
+    
+    @show_advisor_category = @documents.where(visibility_tag: "advisor").any?
 
     if params[:category].present? && params[:category] != "all" && params[:category] != "advisor"
       category = params[:category]
@@ -22,7 +24,7 @@ class DocumentListController < ApplicationController
       @category_string = category
     elsif params[:category] == "advisor"
       category = "advisor"
-      @documents = BoxDocuments.where(visibility_tag: "advisor")
+      @documents = @documents.where(visibility_tag: "advisor")
     else
       @category_string = "all"
     end
