@@ -9,16 +9,16 @@ class DocumentListController < ApplicationController
   def document_list
 
     @show_admin = current_user.admin?
-    @show_advisor = current_user.admin? && @documents.where(visibility_tag: "advisor", visible_name: true).any?
-    @show_other = @documents.where(visible_name: true).not(visibility_tag: "advisor").any?
+    
+    @documents = current_user.visible_documents
+
+    @show_advisor_category = current_user.advisor? && @documents.where(visibility_tag: "advisor", visible_name: true).any?
+    @show_other_category = @documents.where(visible_name: true).not(visibility_tag: "advisor").any?
 
     @notifications = current_user.visible_documents.order(:upload_date).limit(6)
     @notification_count = @notifications.count
     
-    @documents = current_user.visible_documents
     
-    @show_advisor_category = @documents.where(visibility_tag: "advisor").any?
-
     if params[:category].present? && !%w(all other advisor).include?(params[:category])
       category = params[:category]
       @documents = @documents.where(category: category)

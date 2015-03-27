@@ -30,6 +30,18 @@
           </div>
         
       <% end %>
+      <% if @show_advisor_category %>
+      <div class="sidebar-item">
+        <a href="/list/<%= @year_string %>/advisor" class="sidebar-link <%= "sidebar-item-active" if @sidebar_active == 'advisor' %>">Other Advisor Documents</a>
+      </div>
+      <% end %>
+      
+      <% if @show_other_category %>
+      <div class="sidebar-item">
+        <a href="/list/<%= @year_string %>/other" class="sidebar-link <%= "sidebar-item-active" if @sidebar_active == 'other' %>">Other Documents</a>
+      </div>
+      <% end %>
+      
     </div>
   </div>
   <div class="col-md-9 col-sm-8 col-xs-12">
