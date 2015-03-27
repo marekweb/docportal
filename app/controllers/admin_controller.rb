@@ -92,7 +92,7 @@ class AdminController < ApplicationController
     entity = Entity.find(params[:id])
 
     params[:fund].each do |f, role|
-      if role.nil?
+      if role.nil? || role.empty?
         fm = FundMembership.find_by(entity_id: entity.id, fund: f)
         fm.destroy if fm.present?
       elsif %w(advisor lp-main lp-parallel).include? role
