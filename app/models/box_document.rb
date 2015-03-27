@@ -6,12 +6,14 @@ class BoxDocument < ActiveRecord::Base
   
   def display_title
     
-    if visible_name?
-      return full_file_name 
-    end
+
     
     if category.nil?
-      title = "Document"
+      if visible_name?
+        title = full_file_name
+      else
+        title = "Document"
+      end
     else
       title = Categorizer::Categories[category]
     end
@@ -21,8 +23,18 @@ class BoxDocument < ActiveRecord::Base
       title += " " + display_date
     end
     
-    if entity_name
-      title += " (#{normalized_entity_name}) #{fund_tag}"
+    extra_info = []
+    
+    if entity_name.present?
+      extra_info << normalized_entity_name
+    end
+    
+    if fund.present?
+      extra_info << "Fund #{fund}"
+    end
+    
+    if extra_info.any?
+      title += " (" + extra_info.join(", ") + ")"
     end
     
     title

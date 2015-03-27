@@ -11,6 +11,6 @@ class Entity < ActiveRecord::Base
   def self.normalize_name(name)
     # Get the entity name as it appears in the Entity table,
     # given the lowercase tentative name that is stored in a BoxDocument
-    Entity.find_by(['lower(name) = ?', name]).try(:name) || name
+    Entity.find_by(['lower(name) = ?', name]).try(:name) || name.capitalize
   end
 end
