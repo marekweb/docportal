@@ -63,4 +63,8 @@ class User < ActiveRecord::Base
     end
   end
   
+  def visible_documents
+    DocumentFilter.find_documents_visible_to_user(self)
+  end
+  
 end

@@ -34,7 +34,7 @@ class MandrillMailer
         "merge_language"=>"mailchimp",
         "merge"=>true,
         "global_merge_vars"=> merge_vars,
-        "images" => [],#[real_logo_image],
+        "images" => [real_logo_image],
     
         #"headers"=>{"Reply-To"=>"admin@realventures.com"},
         "auto_text"=>true,

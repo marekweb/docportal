@@ -10,16 +10,20 @@ class DocumentListController < ApplicationController
 
     @show_admin = current_user.admin?
 
-    @notifications = BoxDocument.all.order(:upload_date).limit(6)
+    @notifications = current_user.visible_documents.order(:upload_date).limit(6)
     @notification_count = @notifications.count
+    
+    @documents = current_user.visible_documents
 
-    if params[:category].present? && params[:category] != "all"
+    if params[:category].present? && params[:category] != "all" && params[:category] != "advisor"
       category = params[:category]
-      @documents = BoxDocument.where(category: category)
+      @documents = @documents.where(category: category)
       @sidebar_active = category
       @category_string = category
+    elsif params[:category] == "advisor"
+      category = "advisor"
+      @documents = BoxDocuments.where(visibility_tag: "advisor")
     else
-      @documents = BoxDocument.all
       @category_string = "all"
     end
 
