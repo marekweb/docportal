@@ -2,7 +2,7 @@ class BoxDocument < ActiveRecord::Base
   
   def display_title
     
-    if visible_name
+    if visible_name?
       return name.tr('_', ' ').titleize
     end
     
