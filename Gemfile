@@ -49,3 +49,5 @@ gem 'devise'
 gem 'mandrill-api'
 
 gem 'random_password_generator'
+
+gem 'activerecord_any_of'

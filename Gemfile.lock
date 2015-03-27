@@ -21,6 +21,8 @@ GEM
       activemodel (= 4.1.7)
       activesupport (= 4.1.7)
       arel (~> 5.0.0)
+    activerecord_any_of (1.2)
+      rails (>= 3.2.13, < 5)
     activesupport (4.1.7)
       i18n (~> 0.6, >= 0.6.9)
       json (~> 1.7, >= 1.7.7)
@@ -149,6 +151,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  activerecord_any_of
   coffee-rails (~> 4.0.0)
   devise
   faraday
