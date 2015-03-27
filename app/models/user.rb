@@ -5,7 +5,7 @@ class User < ActiveRecord::Base
   validates :email, presence: true, uniqueness: true
   validates :first_name, presence: true
   validates :last_name, presence: true
-  validates :password, length: { minimum: 8 }
+  validates :password, length: { minimum: 8 }, allow_nil: true
   
   belongs_to :entity
   has_many :fund_memberships, through: :entity
@@ -20,6 +20,10 @@ class User < ActiveRecord::Base
   
   def admin?
     return id == 1
+  end
+  
+  def advisor?
+    fund_memberships.any
   end
   
   def mark_sign_in!

@@ -34,10 +34,13 @@ $.fn.saveInitialValues = function() {
 
 $.fn.revertToInitialValues = function() {
   var $this = $(this);
-  var iv = $this.attr('data-initial-value');
-  if (iv != undefined) {
-    $this.val(iv);
-  }
+  $this.each(function() {
+    var $$this = $(this);
+    var iv = $$this.attr('data-initial-value');
+    if (iv != undefined) {
+      $$this.val(iv);
+    }  
+  })
 }
 
 $(document).ready(function() {
