@@ -12,7 +12,7 @@ class DocumentListController < ApplicationController
     
     @documents = current_user.visible_documents
 
-    @show_advisor_category = current_user.advisor? && @documents.where(visibility_tag: "advisor", visible_name: true).any?
+    @show_advisor_category = @documents.where(visibility_tag: "advisor", visible_name: true).any?
     @show_other_category = @documents.where(visible_name: true).where.not(visibility_tag: "advisor").any?
 
     @notifications = current_user.visible_documents.order(:upload_date).limit(6)
@@ -29,7 +29,7 @@ class DocumentListController < ApplicationController
       @documents = @documents.where(visibility_tag: "advisor", visible_name: true)
     elsif params[:category] == "other"
       category = "other"
-      @category = @documents.where(visible_name: true).not(visibility_tag: "advisor")
+      @category = @documents.where(visible_name: true).where.not(visibility_tag: "advisor")
     else
       @category_string = "all"
     end
@@ -44,6 +44,8 @@ class DocumentListController < ApplicationController
       @year_string = "all"
     end
 
+    # Keep a list of the possible years
+    # TODO this could be improved by caching it, similar to caching the max fund
     @years = BoxDocument.where('year IS NOT NULL').select("DISTINCT year").map(&:year).sort.reverse
     @sidebar = Categorizer::Categories
 
