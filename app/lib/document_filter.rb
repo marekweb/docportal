@@ -20,7 +20,7 @@ class DocumentFilter
       documents.merge BoxDocument.where(fund: fm.fund, visibility_tag: "lps", fund_tag: fund_tag_condition)
       
       # Get everything for the particular entity also
-      documents.merge BoxDocument.where(fund: fm.fund, visibility_tag: "entity", entity_name: user.entity.name.lowercase, fund_tag: fund_tag_condition)
+      documents.merge BoxDocument.where(fund: fm.fund, visibility_tag: "entity", entity_name: user.entity.name.downcase, fund_tag: fund_tag_condition)
       
       if fm.role == "advisor"
         documents.merge BoxDocument.where(fund: fm.fund, visibility_tag: "advisor")
