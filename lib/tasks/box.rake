@@ -25,7 +25,7 @@ namespace :box do
     begin
       perform_sync_task
     rescue Exception => e
-      SyncEntry.record_sync_failure(e.message)
+      SyncEntry.record_sync_failure(e)
       puts "#{e.class}: #{e.message}"
     end
     
@@ -86,9 +86,18 @@ namespace :box do
       puts "visibility_tag #{visibility_tag.class} #{visibility_tag}"
       
       download_url = f.download_url
-      box_view_id = BoxViewClient.convert_document(download_url)
       
       box_document = BoxDocument.find_or_create_by({box_file_id: f.id})
+      
+      if box_view_id.nil? || box_document.etag != f.etag
+        puts "File contents are new or changed. Converting"
+        box_view_id = BoxViewClient.convert_document(download_url)
+        # Delay for rate limit
+        sleep 0.2
+      else
+        puts "File contents not changed. Not converting."
+        box_view_id = box_document.box_view_id
+      end
       
       box_document.assign_attributes({
         name: f.name,
@@ -107,6 +116,10 @@ namespace :box do
       
       puts "Saving BoxDocument for #{f.name}"
       box_document.save
+      
+      if box_document.errors.any?
+        puts "ERROR " + box_document.errors.full_messages.to_sentence
+      end
       
     end
     
