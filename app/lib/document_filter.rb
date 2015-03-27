@@ -27,6 +27,9 @@ class DocumentFilter
       end
  
     end
+    
+    puts "Document Conditions"
+    puts document_conditions
 
     BoxDocument.where.any_of(*document_conditions)
     
