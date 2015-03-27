@@ -17,13 +17,13 @@ class DocumentFilter
       end
       
       # Get everything in LPs for the given fund, where fund_tag matches the condition
-      documents.merge BoxDocument.where(fund: fm.fund, visibility_tag: "lps", fund_tag: fund_tag_condition)
+      documents += BoxDocument.where(fund: fm.fund, visibility_tag: "lps", fund_tag: fund_tag_condition)
       
       # Get everything for the particular entity also
-      documents.merge BoxDocument.where(fund: fm.fund, visibility_tag: "entity", entity_name: user.entity.name.downcase, fund_tag: fund_tag_condition)
+      documents += BoxDocument.where(fund: fm.fund, visibility_tag: "entity", entity_name: user.entity.name.downcase, fund_tag: fund_tag_condition)
       
       if fm.role == "advisor"
-        documents.merge BoxDocument.where(fund: fm.fund, visibility_tag: "advisor")
+        documents += BoxDocument.where(fund: fm.fund, visibility_tag: "advisor")
       end
  
     end
