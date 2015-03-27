@@ -67,6 +67,9 @@ namespace :box do
     
     box_document_objects = []
     
+    max_fund = 0 # Track the maximum fund number
+    years_set = Set.new
+    
     synced_files.each do |f|
       
       categorizer = Categorizer.new(f)
@@ -81,6 +84,9 @@ namespace :box do
       visibility_tag = categorizer.visibility_tag
       entity_name = (categorizer.entity_name if visibility_tag == "entity")
       visible_name = categorizer.visible_name?
+      
+      max_fund = [max_fund, fund].max
+      years_set.add(year)
 
       puts "fund #{fund.class} #{fund}"
       puts "fund_tag #{fund_tag.class} #{fund_tag}"
