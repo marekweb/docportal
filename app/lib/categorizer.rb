@@ -24,7 +24,9 @@ class Categorizer
   end
   
   def visible_name?
-    @path.last.downcase.include? 'wildcard'
+    @path.any? do |p|
+      p.downcase.include? 'wildcard'
+    end
   end
   
   def entity_name

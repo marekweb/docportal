@@ -13,7 +13,7 @@ class DocumentListController < ApplicationController
     @documents = current_user.visible_documents
 
     @show_advisor_category = current_user.advisor? && @documents.where(visibility_tag: "advisor", visible_name: true).any?
-    @show_other_category = @documents.where(visible_name: true).not(visibility_tag: "advisor").any?
+    @show_other_category = @documents.where(visible_name: true).where.not(visibility_tag: "advisor").any?
 
     @notifications = current_user.visible_documents.order(:upload_date).limit(6)
     @notification_count = @notifications.count
@@ -46,10 +46,6 @@ class DocumentListController < ApplicationController
 
     @years = BoxDocument.where('year IS NOT NULL').select("DISTINCT year").map(&:year).sort.reverse
     @sidebar = Categorizer::Categories
-    
-    if @current_user.advisor?
-      @sidebar
-    end
 
   end
 

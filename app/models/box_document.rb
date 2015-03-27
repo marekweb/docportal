@@ -1,9 +1,13 @@
 class BoxDocument < ActiveRecord::Base
   
+  def full_file_name
+    File.basename(name, File.extname(name)).tr('_', ' ').titleize
+  end
+  
   def display_title
     
     if visible_name?
-      return name.tr('_', ' ').titleize
+      return full_file_name 
     end
     
     if category.nil?

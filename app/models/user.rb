@@ -23,7 +23,7 @@ class User < ActiveRecord::Base
   end
   
   def advisor?
-    fund_memberships.any
+    fund_memberships.any? { |fm| fm.role == "advisor" }
   end
   
   def mark_sign_in!
