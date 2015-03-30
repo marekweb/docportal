@@ -73,7 +73,7 @@ class DocumentListController < ApplicationController
     # TODO this could better be replacd by showing categories only by the number of files
     if !current_user.admin? && !current_user.advisor?
       categories_only_for_advisors = [8, "advisor"]
-      @sidebar_entries.reject{ |e| categories_only_for_advisors.include? e.slug }
+      @sidebar_entries = @sidebar_entries.reject{ |e| categories_only_for_advisors.include? e.slug }
     end
 
   end
