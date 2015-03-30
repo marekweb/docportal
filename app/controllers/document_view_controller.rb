@@ -5,6 +5,7 @@ class DocumentViewController < ApplicationController
     document_session_id  = BoxViewClient.box_get_view_session(box_document)
     
     if document_session_id.present?
+      box_document.mark_opened(current_user)
       url = "https://view-api.box.com/1/sessions/#{document_session_id}/view"
       redirect_to url
     else
@@ -17,6 +18,7 @@ class DocumentViewController < ApplicationController
     document_session_id  = BoxViewClient.box_get_view_session(box_document)
     
     if document_session_id.present?
+      box_document.mark_downloaded(current_user)
       url = "https://view-api.box.com/1/sessions/#{document_session_id}/content"
       redirect_to url
     else

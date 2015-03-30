@@ -20,25 +20,13 @@
   <div class="col-md-3 col-sm-4 col-xs-3 hidden-xs">
     <div class="sidebar-title">Your Documents</div>
     <div class="sidebar-items">
-      <div class="sidebar-item">
-        <a href="/" class="sidebar-link <%= "sidebar-item-active" if @sidebar_active.nil? %>">All</a>
-      </div>
-      <% @sidebar.map(&:pluralize).each_with_index do |category, i| %>
-        
-          <div class="sidebar-item <%="sidebar-item-active" if @sidebar_active == i.to_s %>">
-            <a href="/list/<%= @year_string %>/<%= i %>" class="sidebar-link"><%= category %></a>
-          </div>
-        
-      <% end %>
-      <% if @show_advisor_category %>
-      <div class="sidebar-item">
-        <a href="/list/<%= @year_string %>/advisor" class="sidebar-link <%= "sidebar-item-active" if @sidebar_active == 'advisor' %>">Other Advisor Documents</a>
-      </div>
-      <% end %>
       
-      <% if @show_other_category %>
+      <% @sidebar_entries.each do |e| %>
+      <% if e.slug == "divider" %>
+        <div class="sidebar-spacer"></div>
+      <% end %>
       <div class="sidebar-item">
-        <a href="/list/<%= @year_string %>/other" class="sidebar-link <%= "sidebar-item-active" if @sidebar_active == 'other' %>">Other Documents</a>
+        <a href="/list/<%= @year_string %>/<%= e.slug %>" class="sidebar-link <%= "sidebar-item-active" if e.slug == @category_string %>"><%= e.name %></a>
       </div>
       <% end %>
       
@@ -48,12 +36,14 @@
     <div class="filter-area clearfix">
       
       <div class="hidden-lg hidden-md hidden-sm dropdown filter-dropdown category-filter-dropdown">
-        <a href="#" data-toggle="dropdown"><div class="filter-button"><%= @sidebar_active.nil? ? "All Documents" : @sidebar[@sidebar_active.to_i] %>  <span class="caret"></span></div></a>
+        <a href="#" data-toggle="dropdown"><div class="filter-button"><%= @category_name %><span class="caret"></span></div></a>
         <ul class="dropdown-menu dropdown-menu-left">
-          <li role="presentation"><a class="<%= "active" if @category_string == "all" %>" href="/list/<%= @year_string %>/all">All Documents</a></li>
-          <li role="presentation" class="divider"></li>
-          <% @sidebar.map(&:pluralize).each_with_index do |category, i| %>
-          <li role="presentation"><a class="<%= "active" if @sidebar_active == i.to_s %>" href="/list/<%= @year_string %>/<%= i %>"><%= category %></a></li>
+          <% @sidebar_entries.each do |e| %>
+            <% if e.slug == "divider" %>
+            <li role="presentation" class="divider"></li>
+            <% else %>
+            <li role="presentation"><a class="<%= "active" if @category_string == e.slug %>" href="/list/<%= @year_string %>/all"><%= e.name %></a></li>
+            <% end %>
           <% end %>
         </ul>
       </div>

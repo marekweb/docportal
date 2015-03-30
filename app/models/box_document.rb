@@ -84,4 +84,22 @@ class BoxDocument < ActiveRecord::Base
     
   end
   
+  def mark_opened(user)
+    mark_action(user, "opened")
+  end
+  
+  def mark_downloaded(user)
+    mark_Action(user, "downloaded")
+  end
+  
+  def mark_action(user, action)
+    now = DateTime.now
+    document_view = DocumentView.find_or_create_by({box_document_id: id, user_id: user.id})
+    if document_view.send("first_#{action}_at").nil?
+      document_view.send("first_#{action}_at=", now)
+    end
+    document_view.send("last_#{action}_at=", now)
+    document_view.save
+  end
+  
 end
