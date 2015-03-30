@@ -88,7 +88,7 @@ class BoxViewClient
       
       # Response 429 = Rate limitation, wait 2 seconds and retry.
       if response.status == 429 && !retrying
-        delay = response.headers['Retry-After'] || 2.0
+        delay = response.headers['Retry-After'].to_i || 2.0
         sleep delay
         return self.convert_document(download_url, true)
       end
