@@ -11,7 +11,10 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150327014739) do
+ActiveRecord::Schema.define(version: 20150327221851) do
+
+  # These are extensions that must be enabled in order to support this database
+  enable_extension "plpgsql"
 
   create_table "box_accesses", force: true do |t|
     t.string   "token"
@@ -45,9 +48,11 @@ ActiveRecord::Schema.define(version: 20150327014739) do
   create_table "document_views", force: true do |t|
     t.integer  "user_id"
     t.integer  "box_document_id"
-    t.datetime "opened_at"
-    t.datetime "downloaded_at"
+    t.datetime "first_opened_at"
+    t.datetime "first_downloaded_at"
     t.datetime "viewed_at"
+    t.datetime "last_opened_at"
+    t.datetime "last_downloaded_at"
   end
 
   create_table "entities", force: true do |t|
@@ -74,14 +79,6 @@ ActiveRecord::Schema.define(version: 20150327014739) do
     t.string   "failure"
   end
 
-  create_table "sync_entry", force: true do |t|
-    t.datetime "started_at"
-    t.datetime "completed_at"
-    t.integer  "total_files"
-    t.integer  "added_files"
-    t.integer  "removed_files"
-  end
-
   create_table "users", force: true do |t|
     t.string   "email",                  default: "",   null: false
     t.string   "encrypted_password",     default: "",   null: false
@@ -104,7 +101,7 @@ ActiveRecord::Schema.define(version: 20150327014739) do
     t.string   "activation_token"
   end
 
-  add_index "users", ["email"], name: "index_users_on_email", unique: true
-  add_index "users", ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
+  add_index "users", ["email"], name: "index_users_on_email", unique: true, using: :btree
+  add_index "users", ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true, using: :btree
 
 end
