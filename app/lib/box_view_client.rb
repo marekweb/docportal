@@ -73,10 +73,9 @@ class BoxViewClient
     conn.post(url, body.to_json)
   end
 
-  def self.convert_document(download_url)
+  def self.convert_document(download_url, retrying=false)
 
     response = make_request("https://view-api.box.com/1/documents", {url: download_url, name: ""})
-    response.body
   
     fields = JSON.parse(response.body)
     
@@ -86,6 +85,13 @@ class BoxViewClient
       self.logger.debug("Convert document did not succeed")
       self.logger.debug("Response status=#{response.status}")
       self.logger.debug(response.body)
+      
+      # Response 429 = Rate limitation, wait 2 seconds and retry.
+      if response.status == 429 && !retrying
+        delay = response.headers['Retry-After'] || 2.0
+        sleep delay
+        return self.convert_document(download_url, true)
+      end
     end
 
     id
