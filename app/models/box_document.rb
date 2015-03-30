@@ -89,7 +89,7 @@ class BoxDocument < ActiveRecord::Base
   end
   
   def mark_downloaded(user)
-    mark_Action(user, "downloaded")
+    mark_action(user, "downloaded")
   end
   
   def mark_action(user, action)
