@@ -27,8 +27,8 @@ class DocumentListController < ApplicationController
     @show_admin = current_user.admin?
     @documents = current_user.visible_documents
 
-    @show_advisor_category = @documents.where(visibility_tag: "advisor", visible_name: true).any?
-    @show_other_category = @documents.where(visible_name: true).where.not(visibility_tag: "advisor").any?
+    # @show_advisor_category = @documents.where(visibility_tag: "advisor", visible_name: true).any?
+    # @show_other_category = @documents.where(visible_name: true).where.not(visibility_tag: "advisor").any?
 
     @notifications = current_user.visible_documents.order(:upload_date).limit(6)
     @notification_count = @notifications.count
@@ -40,7 +40,6 @@ class DocumentListController < ApplicationController
       @category_name = Categorizer::Categories[category]
       @category_string = params[:category]
     elsif params[:category] == "advisor"
-      #category = "advisor"
       @category_string = "advisor"
       @category_name = special_category_names["advisor"]
       @documents = @documents.where(visibility_tag: "advisor", category: nil)

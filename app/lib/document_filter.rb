@@ -16,10 +16,10 @@ class DocumentFilter
         nil
       end
       
-      # Get everything in LPs for the given fund, where fund_tag matches the condition
-      document_conditions << {fund: fm.fund, visibility_tag: "lps", fund_tag: fund_tag_condition}
+      # Get everything in LPs for the given fund, where fund_tag matches the condition 
+      document_conditions << {fund: fm.fund, visibility_tag: "lp", fund_tag: fund_tag_condition}
       
-      # Get everything for the particular entity also
+      # Get everything for the particular entity also.
       document_conditions << {fund: fm.fund, visibility_tag: "entity", entity_name: user.entity.name.downcase, fund_tag: fund_tag_condition}
       
       if fm.role == "advisor"
