@@ -41,8 +41,7 @@ class AuthController < ApplicationController
       u.reset_password_sent_at = DateTime.now
       u.save
 
-      # Trigger email
-      # TODO
+      MandrillMailer.send_password_reset(u)
       
       flash[:notice] = "A message was sent to #{@email} with instructions."
       redirect_to '/login'
@@ -60,9 +59,9 @@ class AuthController < ApplicationController
     @user = User.find_by(reset_password_token: @token) 
     return redirect_password_reset_error if @user.nil?
     
-    # If reset_password_set_at field is set, then check it against the expiry period.
-    # If reset_password_set_at field is NOT set, then there's no expiry for this token.
-    return redirect_password_reset_error if @user.reset_password_sent_at.present? && @user.reset_password_sent_at <= 24.hours.ago
+    # If reset_password_sent_at field is set, then check it against the expiry period.
+    # If reset_password_sent_at field is NOT set, then there's no expiry for this token.
+    return redirect_password_reset_error if @user.reset_password_sent_at.present? && @user.reset_password_sent_at <= 12.hours.ago
     
     @post_action = '/select_password'
     

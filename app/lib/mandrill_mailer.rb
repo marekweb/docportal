@@ -8,12 +8,26 @@ class MandrillMailer
       "fname" => user.first_name,
       "href" => 'https://' + ENV['HOSTNAME'] + '/activate_password?token=' + user.activation_token,
       "email" => user.email,
-      "logo_url" => 'https://' + ENV['HOSTNAME'] + '/assets/real-ventures.png'
+      #"logo_url" => 'https://' + ENV['HOSTNAME'] + '/assets/real-ventures.png'
     }
     
     self.send_template "lp-portal-account-creation", user.display_name, user.email, merge_vars
     
     user.activation_sent_at = DateTime.now
+    user.save
+    
+  end
+  
+  def self.send_password_reset(user)
+    
+    merge_vars = {
+      "fname" => user.first_name,
+      "href" => 'https://' + ENV['HOSTNAME'] + '/select_password?token=' + user.reset_password_token,
+      "email" => user.email
+    }
+    
+    self.send_template "lp-portal-password-reset", user.display_name, user.email, merge_vars
+    user.reset_password_sent_at = DateTime.now
     user.save
     
   end
