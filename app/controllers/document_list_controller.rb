@@ -15,8 +15,7 @@ class DocumentListController < ApplicationController
   end
   
   def sidebar_entries
-    ["all", 0, 1, 2, 3, "divider", 4, 5, 6, "other", "divider", 7, 8, "advisor"].map do |i|
-      puts i
+    ["all", 0, 1, 2, 3, 4, "divider", 5, 6, "other", "divider", 7, 8, "advisor"].map do |i|
       name = if i == "divider" then nil elsif special_category_names.has_key?(i) then special_category_names[i] else Categorizer::Categories[i].pluralize end
       OpenStruct.new(slug: i, name: name)
     end
