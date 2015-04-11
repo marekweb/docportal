@@ -15,7 +15,7 @@ class DocumentListController < ApplicationController
   end
   
   def sidebar_entries
-    ["all", 0, 1, 2, 3, 4, "divider", 5, 6, "other", "divider", 7, 8, "advisor"].map do |i|
+    ["all", 0, 1, 2, 3, 4, "divider", 5, 6, 7, "other", "divider", 8, "advisor"].map do |i|
       name = if i == "divider" then nil elsif special_category_names.has_key?(i) then special_category_names[i] else Categorizer::Categories[i].pluralize end
       OpenStruct.new(slug: i, name: name)
     end
@@ -26,11 +26,14 @@ class DocumentListController < ApplicationController
     @show_admin = current_user.admin?
     @documents = current_user.visible_documents
 
-    # @show_advisor_category = @documents.where(visibility_tag: "advisor", visible_name: true).any?
-    # @show_other_category = @documents.where(visible_name: true).where.not(visibility_tag: "advisor").any?
+    # TODO
+    # Improve the new document notification lookup
+    @notifications = @documents.joins(:document_view).where('document_views.first_opened_at = NULL').limit(6) #@documents.joins(:document_view).where('document_views.user_id' => current_user.id).where('document_views.first_opened_at = NULL OR document_views.first_downloaded_at = NULL').reorder(upload_date: :asc).limit(6)
 
-    @notifications = current_user.visible_documents.order(:upload_date).limit(6)
     @notification_count = @notifications.count
+
+    
+    
     
 
     if params[:category].present? && !%w(all other advisor).include?(params[:category])

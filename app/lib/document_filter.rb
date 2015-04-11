@@ -31,8 +31,19 @@ class DocumentFilter
     puts "Document Conditions"
     puts document_conditions
 
-    BoxDocument.where.any_of(*document_conditions)
+    results = BoxDocument.where.any_of(*document_conditions)
     
+    apply_order(results)
+  end
+  
+  def self.find_documents_visible_to_admin
+    apply_order(BoxDocument.all)
+  end
+  
+  private
+  
+  def self.apply_order(relation)
+    relation.order(year: :desc).order(quarter: :desc).order(month: :desc).order(upload_date: :desc)
   end
   
 end
