@@ -65,7 +65,7 @@ class User < ActiveRecord::Base
   
   def visible_documents
     if admin?
-      BoxDocument.all
+      DocumentFilter.find_documents_visible_to_admin
     else
       DocumentFilter.find_documents_visible_to_user(self)
     end
