@@ -32,10 +32,6 @@ class DocumentListController < ApplicationController
 
     @notification_count = @notifications.count
 
-    
-    
-    
-
     if params[:category].present? && !%w(all other advisor).include?(params[:category])
       category = params[:category].to_i
       @documents = @documents.where(category: category)

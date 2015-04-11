@@ -43,7 +43,7 @@ class DocumentFilter
   private
   
   def self.apply_order(relation)
-    relation.order(year: :desc).order(quarter: :desc).order(month: :desc).order(upload_date: :desc)
+    relation.order('coalesce(year, -1) desc').order('coalesce(quarter, -1) desc').order('coalesce(month, -1) desc').order(upload_date: :desc)
   end
   
 end
