@@ -1,4 +1,4 @@
 class DocumentView < ActiveRecord::Base
-  has_one :user
-  has_one :box_document
+  belongs_to :user
+  belongs_to :box_document
 end
