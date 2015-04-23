@@ -62,6 +62,10 @@ GEM
       thor (>= 0.14, < 2.0)
     json (1.8.1)
     jwt (1.2.0)
+    lograge (0.3.1)
+      actionpack (>= 3)
+      activesupport (>= 3)
+      railties (>= 3)
     mail (2.6.3)
       mime-types (>= 1.16, < 3)
     mandrill-api (1.0.53)
@@ -157,6 +161,7 @@ DEPENDENCIES
   faraday
   jbuilder (~> 2.0)
   jquery-rails
+  lograge
   mandrill-api
   pg
   rails (= 4.1.7)
