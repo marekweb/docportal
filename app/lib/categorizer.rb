@@ -32,9 +32,7 @@ class Categorizer
   
   def entity_name
     # Entity names are taken to be a folder name directly below the "Entities" folder
-    puts "Parsing entity name..."
     entities_folder_index = @path.find_index { |p| p.downcase == "entities" }
-    puts "Entity folder index #{entities_folder_index}"
     # Skip if there is no "Entities" folder in the path
     return nil if entities_folder_index.nil?
     
@@ -43,8 +41,7 @@ class Categorizer
     
     # Return the name of the folder directly following "Entities"
     entity_name = @path[entities_folder_index + 1].downcase
-    puts "Found entity name"
-    
+
     entity_name
   end
   

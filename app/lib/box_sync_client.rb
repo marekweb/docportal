@@ -35,8 +35,6 @@ class BoxSyncClient
     
     all_items(folder_id).each do |i|
       
-      puts "#{i.type} #{i.id} #{i.name}"
-      
       if i.type == "file"
         files << i
       elsif i.type == "folder"

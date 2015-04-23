@@ -75,4 +75,8 @@ Rails.application.configure do
 
   # Do not dump schema after migrations.
   config.active_record.dump_schema_after_migration = false
+  
+  # Lograge log output reducer; enabled on production but not on development.
+  config.lograge.enabled = true
+
 end

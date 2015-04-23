@@ -33,19 +33,21 @@ namespace :box do
   
   def perform_sync_task
 
-    # Box client needed for 
+    # Box client needed for sync
     box_client = BoxAdapter.create_box_client!
     
+    puts "SYNC: Starting sync task (perform_sync_task)"
+    
     if box_client.nil?
-      puts "Box Access has not been set up. Aborting sync"
+      puts "SYNC: Box Access has not been set up. Aborting sync"
       return # Abort the rake task`
     end
 
+    puts "SYNC: Performing Box sync on folder tree"
     synced_files = BoxAdapter.sync_folder_by_name("LP Portal")
     
-    puts "Done syncing file list"
-    puts "---------------------------"
-  
+    puts "SYNC: Done syncing file list"
+
     
     # Build a hash in the form: id => file
     synced_file_hash = {}
@@ -55,15 +57,11 @@ namespace :box do
     
     # Build a list of the file ids
     extant_box_ids = BoxDocument.all.pluck(:box_file_id)
-    puts "extant: #{extant_box_ids}"
+
     synced_box_ids = synced_files.map(&:id)
     
     created_box_ids = synced_box_ids - extant_box_ids
     destroyed_box_ids = extant_box_ids - synced_box_ids
-    
-    puts "synced: #{synced_box_ids}"
-    puts "created: #{created_box_ids}"
-    puts "destroyed: #{destroyed_box_ids}"
     
     box_document_objects = []
     
@@ -88,21 +86,15 @@ namespace :box do
       max_fund = [max_fund, fund].max
       years_set.add(year)
 
-      puts "fund #{fund.class} #{fund}"
-      puts "fund_tag #{fund_tag.class} #{fund_tag}"
-      puts "visibility_tag #{visibility_tag.class} #{visibility_tag}"
-      
       download_url = f.download_url
       
       box_document = BoxDocument.find_or_create_by({box_file_id: f.id})
       
       if box_document.box_view_id.nil? || box_document.etag != f.etag
-        puts "File contents are new or changed. Converting"
         box_view_id = BoxViewClient.convert_document(download_url)
         # Delay for rate limit
         sleep 0.2
       else
-        puts "File contents not changed. Not converting."
         box_view_id = box_document.box_view_id
       end
       
@@ -122,7 +114,6 @@ namespace :box do
         etag: f.etag
       })
       
-      puts "Saving BoxDocument for #{f.name}"
       box_document.save
       
       if box_document.errors.any?
@@ -132,7 +123,6 @@ namespace :box do
     end
     
     destroyed_box_ids.each do |id|
-      puts "Deleting box document: " + id
       BoxDocument.find_by(box_file_id: id).destroy
     end
     
