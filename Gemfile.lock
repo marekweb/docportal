@@ -47,6 +47,9 @@ GEM
       responders
       thread_safe (~> 0.1)
       warden (~> 1.2.3)
+    dotenv (2.0.1)
+    dotenv-rails (2.0.1)
+      dotenv (= 2.0.1)
     erubis (2.7.0)
     excon (0.42.1)
     execjs (2.2.2)
@@ -158,6 +161,7 @@ DEPENDENCIES
   activerecord_any_of
   coffee-rails (~> 4.0.0)
   devise
+  dotenv-rails
   faraday
   jbuilder (~> 2.0)
   jquery-rails

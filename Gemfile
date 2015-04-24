@@ -54,3 +54,6 @@ gem 'activerecord_any_of'
 
 # Log output reducer
 gem 'lograge'
+
+# Dotenv for loading .env
+gem 'dotenv-rails', :groups => [:development, :test]
