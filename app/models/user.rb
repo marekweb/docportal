@@ -27,8 +27,8 @@ class User < ActiveRecord::Base
   end
   
   def mark_sign_in!
-    last_sign_in_at = current_sign_in_at
-    current_sign_in_at = DateTime.now
+    self.last_sign_in_at = current_sign_in_at
+    self.current_sign_in_at = DateTime.now
     sign_in_count ||= 0
     sign_in_count += 1
     save
