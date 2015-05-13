@@ -3,7 +3,7 @@ class BoxDocument < ActiveRecord::Base
   has_many :document_view
   
   def full_file_name
-    File.basename(name, File.extname(name)).tr('_', ' ').titleize
+    File.basename(name, File.extname(name)).tr('_', ' ')
   end
   
   def display_title

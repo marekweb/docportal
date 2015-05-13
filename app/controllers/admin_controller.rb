@@ -4,7 +4,7 @@ class AdminController < ApplicationController
   before_action :restrict_to_admin
   
   def create_user
-    @user = User.new(params.require(:user).permit(:email, :first_name, :last_name))
+    @user = User.new(params.require(:user).permit(:email, :first_name, :last_name, :entity_id))
     
     @user.generate_activation_token
     
@@ -53,12 +53,10 @@ class AdminController < ApplicationController
   end
   
   def users
-    
-    
     enabled_users = User.order(:last_name).where(enabled: true)
     disabled_users = User.order(:last_name).where(enabled: false)
     @users = enabled_users + disabled_users
-    @entities = Entity.all.order(:name)
+    @entities_for_select =  [OpenStruct.new({id:nil, name:'&mdash;'.html_safe})] + Entity.all.order(:name)
   end
   
   def entities
@@ -123,7 +121,7 @@ class AdminController < ApplicationController
     box_access = BoxAccess.first
     box_access.notifications_enabled = value
     box_access.save
-    redirect_to "/entities"
+    redirect_to "/messaging"
   end
   
   def toggle_user_enabled
@@ -144,6 +142,34 @@ class AdminController < ApplicationController
       end
     end
     redirect_to '/users'
+  end
+  
+  def messaging
+    @users = User.all
+    box_access = BoxAccess.first
+    @general_message = box_access.general_message
+    @general_message_enabled = box_access.general_message_enabled
+    @notifications_enabled = box_access.notifications_enabled
+    
+    @dates = 14.days.ago.to_date..Date.today
+    
+    @dates = @dates.map do |d|
+      files = User.last.visible_documents.where(upload_date: d)
+      OpenStruct.new({date: d, files: files})
+    end
+    
+  end
+  
+  def set_messaging
+    message = params[:general_message]
+    enabled = params[:general_message_enabled]
+    throw "enabled is #{enabled}"
+    box_access = BoxAccess.first
+    box_access.general_message = message
+    box_access.general_message_enabled = enabled
+    box_access.save
+    
+    redirect_to '/messaging'
   end
     
   private

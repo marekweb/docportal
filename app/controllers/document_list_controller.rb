@@ -10,13 +10,23 @@ class DocumentListController < ApplicationController
     {
       "all" => "All",
       "other" => "Other Documents",
-      "advisor" => "Other Advisory Documents"
+      "advisor" => "Advisory Other Documents"
+    }
+  end
+  
+  def shorter_names_for_categories
+    {
+      8 => "Advisor Mtg Minutes",
+      "advisor" => "Advisory Other"
     }
   end
   
   def sidebar_entries
-    ["all", 0, 1, 2, 3, 4, "divider", 5, 6, 7, "other", "divider", 8, "advisor"].map do |i|
+    ["all", 0, 1, 2, 3, 4, "divider", 5, 6, 7, "other", "divider", 8, 10, "advisor"].map do |i|
       name = if i == "divider" then nil elsif special_category_names.has_key?(i) then special_category_names[i] else Categorizer::Categories[i].pluralize end
+      if i == 8 || i == 10
+        name = "Advisory #{name}" 
+      end
       OpenStruct.new(slug: i, name: name)
     end
   end
@@ -25,6 +35,12 @@ class DocumentListController < ApplicationController
 
     @show_admin = current_user.admin?
     @documents = current_user.visible_documents
+    
+    box_access = BoxAccess.first
+    
+    if box_access.general_message_enabled && box_access.general_message.present?
+      @general_message = box_access.general_message
+    end
 
     # TODO
     # Improve the new document notification lookup
@@ -69,7 +85,7 @@ class DocumentListController < ApplicationController
     # For non-advisors, remove the advisor-only categories
     # TODO this could better be replacd by showing categories only by the number of files
     if !current_user.admin? && !current_user.advisor?
-      categories_only_for_advisors = [8, "advisor"]
+      categories_only_for_advisors = [8, 10, "advisor"]
       @sidebar_entries = @sidebar_entries.reject{ |e| categories_only_for_advisors.include? e.slug }
     end
 

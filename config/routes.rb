@@ -34,6 +34,9 @@ Rails.application.routes.draw do
   get 'sync' => 'admin#sync'
   get 'users' => 'admin#users'
   get 'entities' => 'admin#entities'
+  get 'messaging' => 'admin#messaging'
+  
+  post 'set_messaging' => 'admin#set_messaging'
   
   post "create_user" => "admin#create_user"
   post "update_user" => "admin#update_user"

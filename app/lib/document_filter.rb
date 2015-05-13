@@ -12,8 +12,8 @@ class DocumentFilter
         ["main", nil]
       elsif fm.role == "lp-parallel"
         ["parallel", nil]
-      else
-        nil
+      elsif fm.role == "advisor"
+        ["main", "parallel", nil]
       end
       
       # Get everything in LPs for the given fund, where fund_tag matches the condition 

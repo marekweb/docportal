@@ -1,16 +1,12 @@
 <%= render partial: "common/navbar.html" %>
 
-<!--
-  <%= @current_user.fund_memberships.pluck(:fund, :role) %>
--->
-
 <div class="container">
   
-  <% if @broadcast_message.present? %>
+  <% if @general_message.present? %>
   <div class="col-xs-12">
     <div class="alert alert-danger" role="alert">
       <%= image_tag 'icons/email.png', width: "32", style: "margin-right: 20px" %>
-      <%= @broadcast_message %>
+      <%= @general_message %>
       
       <button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
     </div>

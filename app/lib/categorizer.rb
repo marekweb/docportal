@@ -1,7 +1,6 @@
 class Categorizer
   
-  #Categories = ["Quarterly Report", "Capital Call", "Distribution", "Account Statement", "Financial Statement", "LP Report", "Tax Document", "FATCA Document", "Meeting Minutes", "Subscription Agreement"]
-  Categories = ["Quarterly Report", "Capital Call", "Distribution", "Financial Statement", "LPA", "Account Statement", "Tax Document", "FATCA Document", "Meeting Minutes", "Subscription Agreement"]
+  Categories = ["Quarterly Report", "Capital Call", "Distribution", "Financial Statement", "LPA", "Account Statement", "Tax Document", "FATCA Document", "Meeting Minutes", "Subscription Agreement", "Presentations"]
   
   FundTags = ["Main", "Parallel"].map(&:downcase)
   VisibilityTags = ["LPs", "Advisors", "Entities"].map(&:downcase).map(&:singularize)

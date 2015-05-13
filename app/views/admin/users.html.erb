@@ -15,6 +15,7 @@
     <td><input class="form-control" type="email" name="user[email]" placeholder="Email"></td>
     <td><input class="form-control" type="text" name="user[first_name]" placeholder="First Name"></td>
     <td><input class="form-control" type="text" name="user[last_name]" placeholder="Last Name"></td>
+    <td><%= select_tag 'user[entity_id]', options_from_collection_for_select(@entities_for_select, :id, :name, include_blank: true), class: 'form-control' %>
     <td><input type="submit" value="Create" class="btn btn-primary"></td>
   </tr>
 </table>
@@ -38,7 +39,7 @@
       <td><input class="form-control" name="user[first_name]" value="<%= u.first_name %>" data-initial-value="<%= u.first_name %>" <%= 'disabled="disabled"' if !u.enabled %>></td>
       <td><input class="form-control" name="user[last_name]" value="<%= u.last_name %>" data-initial-value="<%= u.last_name %>" <%= 'disabled="disabled"' if !u.enabled %>></td>
     <td>
-      <%= select_tag("user[entity_id]", options_for_select((["&mdash;".html_safe] + @entities.map(&:name)).zip([""] + @entities.map(&:id)), u.entity_id), class: "form-control", disabled: ("disabled" if !u.enabled)) %>
+      <%= select_tag("user[entity_id]", options_from_collection_for_select(@entities_for_select, :id, :name, u.entity_id), class: "form-control", disabled: ("disabled" if !u.enabled)) %>
     </td>
     <td>
        <% if !u.enabled %>
