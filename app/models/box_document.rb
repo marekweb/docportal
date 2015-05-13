@@ -76,13 +76,6 @@ class BoxDocument < ActiveRecord::Base
     "visibility=#{visibility_tag} fund=#{fund} fund_tag=#{fund_tag} category=#{category} entity=#{entity_name}"
   end
   
-  def self.all_visible_to_user(user)
-    
-    fund_memberships = user.entity.fund_memberships
-    
-    BoxDocument.where
-    
-  end
   
   def mark_opened(user)
     mark_action(user, "opened")

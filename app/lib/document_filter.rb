@@ -28,6 +28,9 @@ class DocumentFilter
  
     end
 
+    # A user may have zero entities. In this case they simply have no documents.
+    return BoxDocument.none if document_conditions.empty?
+    
     results = BoxDocument.where.any_of(*document_conditions)
     
     apply_order(results)
