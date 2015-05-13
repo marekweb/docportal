@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150424000604) do
+ActiveRecord::Schema.define(version: 20150513160200) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -64,6 +64,11 @@ ActiveRecord::Schema.define(version: 20150424000604) do
     t.datetime "updated_at"
   end
 
+  create_table "entities_users", id: false, force: true do |t|
+    t.integer "entity_id", null: false
+    t.integer "user_id",   null: false
+  end
+
   create_table "fund_memberships", force: true do |t|
     t.integer  "entity_id"
     t.integer  "fund"
@@ -79,6 +84,14 @@ ActiveRecord::Schema.define(version: 20150424000604) do
     t.integer  "added_files"
     t.integer  "removed_files"
     t.string   "failure"
+  end
+
+  create_table "sync_entry", force: true do |t|
+    t.datetime "started_at"
+    t.datetime "completed_at"
+    t.integer  "total_files"
+    t.integer  "added_files"
+    t.integer  "removed_files"
   end
 
   create_table "users", force: true do |t|

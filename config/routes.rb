@@ -45,4 +45,7 @@ Rails.application.routes.draw do
   post "update_entity" => "admin#update_entity"
   post "create_entity" => "admin#create_entity"
   
+  post 'add_user_entity' => 'admin#add_user_entity'
+  post 'remove_user_entity' => 'admin#remove_user_entity'
+  
 end

@@ -7,8 +7,9 @@ class User < ActiveRecord::Base
   validates :last_name, presence: true
   validates :password, length: { minimum: 8 }, allow_nil: true
   
-  belongs_to :entity
-  has_many :fund_memberships, through: :entity
+  #belongs_to :entity
+  has_and_belongs_to_many :entities
+  has_many :fund_memberships, through: :entities
 
   def initials
     (first_name[0] + last_name[0]).upcase

@@ -4,7 +4,9 @@ class AdminController < ApplicationController
   before_action :restrict_to_admin
   
   def create_user
-    @user = User.new(params.require(:user).permit(:email, :first_name, :last_name, :entity_id))
+    @user = User.new(params.require(:user).permit(:email, :first_name, :last_name))
+    
+    @user.entities << Entity.find(params[:entity_id])
     
     @user.generate_activation_token
     
@@ -30,7 +32,7 @@ class AdminController < ApplicationController
   
   def update_user
     
-    user_params = params.require(:user).permit(:email, :first_name, :last_name, :entity_id)
+    user_params = params.require(:user).permit(:email, :first_name, :last_name)
     user = User.find(params.require(:id))
     user.update_attributes(user_params)
     
@@ -56,7 +58,7 @@ class AdminController < ApplicationController
     enabled_users = User.order(:last_name).where(enabled: true)
     disabled_users = User.order(:last_name).where(enabled: false)
     @users = enabled_users + disabled_users
-    @entities_for_select =  [OpenStruct.new({id:nil, name:'&mdash;'.html_safe})] + Entity.all.order(:name)
+    @entities_for_select =  [OpenStruct.new({id:nil, name:'Add Entity'.html_safe})] + Entity.all.order(:name)
   end
   
   def entities
@@ -114,6 +116,21 @@ class AdminController < ApplicationController
       return render json: { status: true, message: "Saved details for #{entity.name}" }
     end
     
+  end
+  
+  def add_user_entity
+    user = User.find(params[:user_id])
+    entity = Entity.find(params[:entity_id])
+    user.entities << entity
+    user.save
+    render json: {}
+  end
+  
+  def remove_user_entity
+    user = User.find(params[:user_id])
+    entity = Entity.find(params[:entity_id])
+    user.entities.delete(entity)
+    render json: {}
   end
   
   def set_notifications

@@ -1,7 +1,9 @@
 <div class="header">
   <div class="container">
     <div class="col-xs-4">
-      <%= image_tag 'real-white.png', class: 'logo' %>
+      <a href="/">
+        <%= image_tag 'real-white.png', class: 'logo' %>
+      </a>
     </div>
     <div class="col-xs-8">
       <div class="navbar-profile">
@@ -14,6 +16,7 @@
               <li><a href="/users">Manage Users</a></li>
               <li><a href="/users">Manage Entities</a></li>
               <li><a href="/users">Manage Sync</a></li>
+              <li><a href="/messaging">Manage Messaging</a></li>
               <li role="presentation" class="divider"></li>
             <% end %>
             <li><a href="/logout">Logout</a></li>

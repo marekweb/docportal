@@ -12,7 +12,7 @@ function isRowModified(tr) {
 
 $.fn.getFormValues = function() {
   var data = {};
-  $(this).find('input, select').each(function() {
+  $(this).find('input').each(function() {
       var name = $(this).attr("name");
       var value = $(this).val();
       data[name] = value;
@@ -22,8 +22,8 @@ $.fn.getFormValues = function() {
 
 $.fn.onFormChange = function(callback) {
   console.log('onFormChange', this)
-  $(this).on('change', 'input', callback);
-  $(this).on('input', 'select', callback);
+  $(this).on('change', 'input[name]', callback);
+  $(this).on('input', 'select[name]', callback);
 }
 
 // Initial values (i.e. values that reflect what's in the backend)
@@ -40,7 +40,7 @@ $.fn.revertToInitialValues = function() {
     if (iv != undefined) {
       $$this.val(iv);
     }  
-  })
+  });
 }
 
 $(document).ready(function() {
@@ -52,6 +52,10 @@ $(document).ready(function() {
   
   $('.admin-user-list').onFormChange(onUserRowChanged);
   $('.admin-entity-list').onFormChange(onEntityRowChanged);
+  
+  console.log('adding onEntityRemoveClicked', $('.admin-user-list .user-entity-remove'))
+  $('.admin-user-list').on('click', '.user-entity-remove', onEntityRemoveClicked);
+  $('.admin-user-list').on('change', '.user-entity-add', onEntityAdded);
 
   function onEntityRowChanged() {
     var tr = $(this).closest('tr');
@@ -69,10 +73,32 @@ $(document).ready(function() {
       } else {
         $(tr).find('input').saveInitialValues();
       }
-    })
+    });
   } 
 
  
+  function onEntityRemoveClicked() {
+    var $entityTag = $(this).closest('.user-entity');
+    var $tr = $(this).closest('tr');
+    var userId = $tr.data('id');
+    var entityId = $entityTag.data('entity-id');
+    console.log("Removing USER,ENTITY", userId, entityId);
+    $.post('/remove_user_entity', { user_id: userId, entity_id: entityId });
+    $entityTag.remove();
+  }
+  
+  function onEntityAdded(e) {
+    console.log("ADDED entity", $(this).val(), e)
+    var entityId = $(this).val();
+    if (entityId == undefined) return alert("Not actually a new entiy");
+    var entityName = $(this).find('option[value="'+entityId+'"]').text();
+    $(this).find('option').prop('selected', false); // Deselect everything, should leave the first option selected
+    var $tr = $(this).closest('tr');
+    var userId = $tr.data('id');
+    var $entity = $('<span class="user-entity" data-entity-id="' + entityId + '"><span>' + entityName + '</span><span class="user-entity-remove">&times;</span></span>')
+    $tr.find('.user-entities').append($entity);
+    $.post('/add_user_entity', { user_id: userId, entity_id: entityId });
+  }
   
   function onUserRowChanged() {
     var tr = $(this).closest("tr");

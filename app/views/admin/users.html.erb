@@ -15,7 +15,7 @@
     <td><input class="form-control" type="email" name="user[email]" placeholder="Email"></td>
     <td><input class="form-control" type="text" name="user[first_name]" placeholder="First Name"></td>
     <td><input class="form-control" type="text" name="user[last_name]" placeholder="Last Name"></td>
-    <td><%= select_tag 'user[entity_id]', options_from_collection_for_select(@entities_for_select, :id, :name, include_blank: true), class: 'form-control' %>
+    <td><%= select_tag 'entity_id', options_from_collection_for_select(@entities_for_select, :id, :name, include_blank: true), class: 'form-control' %>
     <td><input type="submit" value="Create" class="btn btn-primary"></td>
   </tr>
 </table>
@@ -28,7 +28,6 @@
     <th>Email</th>
     <th>First Name</th>
     <th>Last Name</th>
-    <th>Entity</th>
     <th></th>
   </tr>
   
@@ -38,9 +37,7 @@
       <td><input class="form-control" name="user[email]" value="<%= u.email %>" data-initial-value="<%= u.email %>" <%= 'disabled="disabled"' if !u.enabled %>></td>
       <td><input class="form-control" name="user[first_name]" value="<%= u.first_name %>" data-initial-value="<%= u.first_name %>" <%= 'disabled="disabled"' if !u.enabled %>></td>
       <td><input class="form-control" name="user[last_name]" value="<%= u.last_name %>" data-initial-value="<%= u.last_name %>" <%= 'disabled="disabled"' if !u.enabled %>></td>
-    <td>
-      <%= select_tag("user[entity_id]", options_from_collection_for_select(@entities_for_select, :id, :name, u.entity_id), class: "form-control", disabled: ("disabled" if !u.enabled)) %>
-    </td>
+   
     <td>
        <% if !u.enabled %>
       <div class="badge">Disabled</div>
@@ -53,6 +50,12 @@
     </td>
 
 
+  </tr>
+  <tr class="user-row" data-id="<%= u.id %>">
+     <td colspan="4">
+      <%= select_tag(nil, options_from_collection_for_select(@entities_for_select, :id, :name, nil), class: "user-entity-add", disabled: ("disabled" if !u.enabled)) %>
+      <div style="display: inline-block" class="user-entities"><% u.entities.each do |e| %> <span data-entity-id="<%= e.id %>" class="user-entity"><%= e.name %><span class="user-entity-remove">&times;</span></span> <% end %></div>
+    </td>
   </tr>
   <tr class="user-row second-row">
     

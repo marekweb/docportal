@@ -2,3 +2,33 @@ select.form-control {
   padding-left: 0;
   padding-right: 0;
 }
+
+.user-entities {
+  padding: 4px;
+  font-size: 12px;
+}
+
+.user-entities:empty:after {
+  content: "no entities";
+}
+
+.user-entity-remove {
+  cursor: pointer;
+  margin-left: 10px;
+}
+
+.user-entity-remove:hover {
+  color: red;
+}
+
+.user-entity-add {
+  font-size: 12px;
+  width: 100px;
+}
+
+.user-entity {
+  background-color: rgba(0,0,0,0.1);
+  border-radius: 9px;
+  padding: 3px;
+  margin: 0 10px;
+}
