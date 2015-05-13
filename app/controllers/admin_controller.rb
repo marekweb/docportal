@@ -6,7 +6,9 @@ class AdminController < ApplicationController
   def create_user
     @user = User.new(params.require(:user).permit(:email, :first_name, :last_name))
     
-    @user.entities << Entity.find(params[:entity_id])
+    if params[:entity_id].present?
+      @user.entities << Entity.find(params[:entity_id])
+    end
     
     @user.generate_activation_token
     
