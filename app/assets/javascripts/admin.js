@@ -12,7 +12,7 @@ function isRowModified(tr) {
 
 $.fn.getFormValues = function() {
   var data = {};
-  $(this).find('input').each(function() {
+  $(this).find('input, select[name]').each(function() {
       var name = $(this).attr("name");
       var value = $(this).val();
       data[name] = value;
@@ -82,13 +82,11 @@ $(document).ready(function() {
     var $tr = $(this).closest('tr');
     var userId = $tr.data('id');
     var entityId = $entityTag.data('entity-id');
-    console.log("Removing USER,ENTITY", userId, entityId);
     $.post('/remove_user_entity', { user_id: userId, entity_id: entityId });
     $entityTag.remove();
   }
   
   function onEntityAdded(e) {
-    console.log("ADDED entity", $(this).val(), e)
     var entityId = $(this).val();
     if (entityId == undefined) return alert("Not actually a new entiy");
     var entityName = $(this).find('option[value="'+entityId+'"]').text();
