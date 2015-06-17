@@ -38,7 +38,7 @@
             <% if e.slug == "divider" %>
             <li role="presentation" class="divider"></li>
             <% else %>
-            <li role="presentation"><a class="<%= "active" if @category_string == e.slug %>" href="/list/<%= @year_string %>/all"><%= e.name %></a></li>
+            <li role="presentation"><a class="<%= "active" if @category_string == e.slug %>" href="/list/<%= @year_string %>/<%= e.slug %>"><%= e.name %></a></li>
             <% end %>
           <% end %>
         </ul>
