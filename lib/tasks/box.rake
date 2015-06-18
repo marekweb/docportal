@@ -22,11 +22,18 @@ namespace :box do
 
     SyncEntry.record_sync_start
     
+    tries = 0
+    
     begin
       perform_sync_task
     rescue Exception => e
       SyncEntry.record_sync_failure(e)
-      puts "#{e.class}: #{e.message}"
+      puts "#{e.class}: #{e.message} (t#{tries})"
+      tries += 1
+      if tries < 3
+        puts "Retrying t#{tries}"
+        retry
+      end
     end
     
   end
