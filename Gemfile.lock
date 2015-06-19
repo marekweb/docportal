@@ -79,6 +79,7 @@ GEM
     multi_json (1.10.1)
     multi_xml (0.5.5)
     multipart-post (2.0.0)
+    newrelic_rpm (3.12.0.288)
     oauth2 (1.0.0)
       faraday (>= 0.8, < 0.10)
       jwt (~> 1.0)
@@ -167,6 +168,7 @@ DEPENDENCIES
   jquery-rails
   lograge
   mandrill-api
+  newrelic_rpm
   pg
   rails (= 4.1.7)
   rails_12factor
