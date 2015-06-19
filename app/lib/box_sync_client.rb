@@ -3,26 +3,42 @@ class BoxSyncClient
   def initialize(box_client)
     @box_client = box_client
   end
-  
+
+  def all_items(folder_id=0)
+    folder_by_id(folder_id).items(100, 0, [:etag, :sha1, :name, :type, :path_collection, :created_at, :created_by, :download_url])
+  end
+
   # List all files in a folder -- but not the folders.
   def all_files(folder_id=0)
-    @box_client.folder_by_id(folder_id).files
+    folder_by_id(folder_id).files
   end
-  
+
   def all_folders(folder_id=0)
-    @box_client.folder_by_id(folder_id).folders
+    folder_by_id(folder_id).folders
   end
-  
-  def all_items(folder_id=0)
-    @box_client.folder_by_id(folder_id).items(100, 0, [:etag, :sha1, :name, :type, :path_collection, :created_at, :created_by, :download_url])
+
+  def folder_by_id(folder_id=0)
+    # This sometimes fails. Try it again
+    tries = 0
+    begin
+      return @box_client.folder_by_id(folder_id)
+    rescue RubyBox::AuthError
+      if tries <= 3
+        puts "RETRYING folder_by_id (t#{tries})"
+        tries += 1
+        retry
+      end
+      puts "ABORTING"
+      raise
+    end
   end
-  
+
   def find_root_folder_by_name(name, folder_id=0)
     root_subfolders = all_folders(folder_id)
     target_subfolder = root_subfolders.find { |f| f.name == name }
     return target_subfolder && target_subfolder.id
   end
-  
+
   def all_files_recursive_by_root_folder_name(name)
     folder_id = find_root_folder_by_name(name)
     all_files_recursive(folder_id)
@@ -32,9 +48,9 @@ class BoxSyncClient
   # Returns a list of RubyBox file objects
   def all_files_recursive(folder_id=0)
     files = []
-    
+
     all_items(folder_id).each do |i|
-      
+
       if i.type == "file"
         files << i
       elsif i.type == "folder"
@@ -52,10 +68,10 @@ class BoxSyncClient
 
       end
     end
-    
+
     return files
-    
+
   end
-  
-  
+
+
 end

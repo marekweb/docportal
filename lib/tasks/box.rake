@@ -28,13 +28,8 @@ namespace :box do
       perform_sync_task
     rescue Exception => e
       SyncEntry.record_sync_failure(e)
-      puts "#{e.class}: #{e.message} (t#{tries})"
-      puts e.backtrace.join(' -- ')
-      tries += 1
-      if tries < 3
-        puts "Retrying t#{tries}"
-        retry
-      end
+      puts "#{e.class}: #{e.message}"
+      puts e.backtrace.join(' --')
     end
     
   end
