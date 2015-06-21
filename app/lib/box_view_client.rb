@@ -33,7 +33,7 @@ class BoxViewClient
 
     # response status 202: not ready yet
     # response status 400: the file is not convertable
-    self.logger.debug "box_view_crete_session: response #{response.status}"
+    self.logger.debug "box_view_create_session: response #{response.status}"
     self.logger.debug response.to_json
     if response.status == 201
         response_fields = JSON.parse(response.body)

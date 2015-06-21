@@ -26,6 +26,10 @@ class BoxSyncClient
       if tries <= 3
         puts "RETRYING folder_by_id (t#{tries})"
         tries += 1
+        # Recreate a new client in case it's the cause of the problem
+        # This introduces an undesirable (& circular) dependecy on BoxAdapter
+        # which avoids extensive refactoring.
+        @box_client = BoxAdapter.create_box_client
         retry
       end
       puts "ABORTING"
