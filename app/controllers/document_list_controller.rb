@@ -22,7 +22,7 @@ class DocumentListController < ApplicationController
   end
   
   def sidebar_entries
-    ["all", 0, 1, 2, 3, 4, "divider", 5, 6, 7, "other", "divider", 8, 10, "advisor"].map do |i|
+    ["all", 0, 1, 2, 3, 4, 11, "divider", 5, 6, 7, "other", "divider", 8, 10, "advisor"].map do |i|
       name = if i == "divider" then nil elsif special_category_names.has_key?(i) then special_category_names[i] else Categorizer::Categories[i].pluralize end
       if i == 8 || i == 10
         name = "Advisory #{name}" 
