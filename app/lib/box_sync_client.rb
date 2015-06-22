@@ -18,7 +18,6 @@ class BoxSyncClient
   end
 
   def folder_by_id(folder_id=0)
-    puts "* folder_by_id(#{folder_id})"
     # This sometimes fails. Try it again
     tries = 0
     begin
@@ -30,7 +29,7 @@ class BoxSyncClient
         # Recreate a new client in case it's the cause of the problem
         # This introduces an undesirable (& circular) dependecy on BoxAdapter
         # which avoids extensive refactoring.
-        @box_client = BoxAdapter.create_box_client
+        @box_client = BoxAdapter.create_box_client!
         retry
       end
       puts "ABORTING"
