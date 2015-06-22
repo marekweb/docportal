@@ -41,6 +41,7 @@ gem 'spring',        group: :development
 
 gem 'rails_12factor'
 gem 'ruby-box'
+gem 'boxr'
 
 gem 'faraday'
 
