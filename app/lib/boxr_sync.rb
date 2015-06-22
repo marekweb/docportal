@@ -7,7 +7,7 @@ class BoxrSync
     # BOX_CLIENT_ID
     # BOX_CLIENT_SECRET
     
-    @client = Boxr::Client.new(access_token: box_access.token, refresh_token: box_access.refresh_token) do |access_token, refresh_token|
+    @client = Boxr::Client.new(box_access.token, refresh_token: box_access.refresh_token) do |access_token, refresh_token|
       # This block gets executed when the token gets refreshed
       puts "BOXR refreshed access token and refresh token."
       box_access = Box_access.first
