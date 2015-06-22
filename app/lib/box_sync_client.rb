@@ -5,7 +5,7 @@ class BoxSyncClient
   end
 
   def all_items(folder_id=0)
-    folder_by_id(folder_id).items(100, 0, [:etag, :sha1, :name, :type, :path_collection, :created_at, :created_by, :download_url])
+    folder_by_id(folder_id).items(100, 0, [:etag, :sha1, :name, :type, :path_collection, :created_at, :created_by, :download_url, :modified_at])
   end
 
   # List all files in a folder -- but not the folders.
@@ -22,13 +22,15 @@ class BoxSyncClient
     tries = 0
     begin
       return @box_client.folder_by_id(folder_id)
-    rescue RubyBox::AuthError
+    rescue RubyBox::AuthError => e
       if tries <= 3
-        puts "RETRYING folder_by_id (t#{tries})"
+        puts "RETRYING folder_by_id (t#{tries}) due to RubyBox::AuthError"
         tries += 1
         # Recreate a new client in case it's the cause of the problem
         # This introduces an undesirable (& circular) dependecy on BoxAdapter
         # which avoids extensive refactoring.
+        
+        # NOTE: it turns out that this does nothing to solve the RubyBox::AuthError issue. 
         @box_client = BoxAdapter.create_box_client!
         retry
       end
@@ -51,13 +53,17 @@ class BoxSyncClient
   # Recursively lists all the files in a Box folder
   # Returns a list of RubyBox file objects
   def all_files_recursive(folder_id=0)
+    
+    last_sync_time = SyncEntry.where.not(completed_at: nil).last.completed_at
     files = []
+    
 
     all_items(folder_id).each do |i|
 
       if i.type == "file"
         files << i
-      elsif i.type == "folder"
+      elsif i.type == "folder" && i.modified_at >= last_sync_time
+      
 
         # Rate limiting
         # Box API docs don't say what the rate limit is so this is
