@@ -18,6 +18,7 @@ class BoxSyncClient
   end
 
   def folder_by_id(folder_id=0)
+    puts "* folder_by_id(#{folder_id})"
     # This sometimes fails. Try it again
     tries = 0
     begin
@@ -76,6 +77,5 @@ class BoxSyncClient
     return files
 
   end
-
 
 end
