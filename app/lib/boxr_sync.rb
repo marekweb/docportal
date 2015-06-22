@@ -18,13 +18,6 @@ class BoxrSync
 
   end
 
-  def root_folder_b
-    folder = @client.folder_from_id(folder_id, )
-    @client.folder_items(folder)
-  end
-
-
-
   def all_files_recursive_from_path(path)
     folder = @client.folder_from_path(path)
     all_files_recursive(folder)
@@ -35,14 +28,14 @@ class BoxrSync
   def all_files_recursive(folder)
     files = []
     
-    all_items = @client.folder_items(folder, [:etag, :sha1, :name, :type, :path_collection, :created_at, :created_by, :download_url, :updated_at])
+    all_items = @client.folder_items(folder, fields: [:etag, :sha1, :name, :type, :path_collection, :created_at, :created_by, :download_url, :updated_at])
 
     all_items.each do |i|
 
       if i.type == "file"
         files << i
       elsif i.type == "folder"
-
+        puts "folder[#{i.id}]"
         # Rate limiting
         # Box API docs don't say what the rate limit is so this is
         # a guess
@@ -59,6 +52,10 @@ class BoxrSync
 
     return files
 
+  end
+  
+  def client
+    @client
   end
 
 end

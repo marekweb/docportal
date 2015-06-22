@@ -12,7 +12,7 @@ class Categorizer
   end
 
   def initialize(box_file)
-    @path = box_file.path_collection.entries.map{ |e| e["name"] }
+    @path = box_file.path_collection['entries'].map{ |e| e["name"] }
   end
 
   def year
