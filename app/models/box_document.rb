@@ -8,12 +8,10 @@ class BoxDocument < ActiveRecord::Base
   
   def display_title
     
-    if category.nil?
-      if visible_name?
-        title = full_file_name
-      else
-        title = "Document"
-      end
+    if visible_name?
+      title = full_file_name
+    elsif category.nil?
+      title = 'Document'
     else
       title = Categorizer::Categories[category]
     end
