@@ -35,7 +35,6 @@ class BoxrSync
       if i.type == "file"
         files << i
       elsif i.type == "folder"
-        puts "folder[#{i.id}]"
         # Rate limiting
         # Box API docs don't say what the rate limit is so this is
         # a guess
