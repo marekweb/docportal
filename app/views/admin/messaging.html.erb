@@ -10,7 +10,7 @@
         <label for="general_message">General Message (shown as a site-wide notice)</label>
         <div class="checkbox">
           <label>
-            <%= check_box_tag 'general_message_enabled', '1', @general_message_enabled %>
+            <%= check_box_tag 'general_message_enabled', '1', @general_message_enabled, { disabled: 'disabled' } %>
             Show General Message
           </label>
         </div>
@@ -29,22 +29,22 @@
       
       <% end %>
 
-      <%= form_tag '/set_notfications' do %>
-        <label>Daily Email Notifications</label>
-            <div class="checkbox">
-              <label>
-                <%= check_box_tag 'notifications_enabled', '1', @notifications_enabled %>
-                Enable daily email notifications when new documents are added
-              </label>
-            </div>
-      <% end %>
+      <!--<%= form_tag '/set_notfications' do %>-->
+      <!--  <label>Daily Email Notifications</label>-->
+      <!--      <div class="checkbox">-->
+      <!--        <label>-->
+      <!--          <%= check_box_tag 'notifications_enabled', '1', @notifications_enabled %>-->
+      <!--          Enable daily email notifications when new documents are added-->
+      <!--        </label>-->
+      <!--      </div>-->
+      <!--<% end %>-->
     
     
-      <div class="form-group">
-        <% @dates.each do |d| %>
-          <p><%= d.date %>: <%= d.files.length %></p>
-        <% end %>
-      </div>
+      <!--<div class="form-group">-->
+      <!--  <% @dates.each do |d| %>-->
+      <!--    <p><%= d.date %>: <%= d.files.length %></p>-->
+      <!--  <% end %>-->
+      <!--</div>-->
     
 
   </div>

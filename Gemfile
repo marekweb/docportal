@@ -60,3 +60,5 @@ gem 'lograge'
 gem 'dotenv-rails', :groups => [:development, :test]
 
 gem 'newrelic_rpm'
+
+gem 'puma'

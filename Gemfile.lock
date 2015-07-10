@@ -96,6 +96,8 @@ GEM
     oj (2.12.9)
     orm_adapter (0.5.0)
     pg (0.18.1)
+    puma (2.11.3)
+      rack (>= 1.1, < 2.0)
     rack (1.5.2)
     rack-test (0.6.2)
       rack (>= 1.0)
@@ -179,6 +181,7 @@ DEPENDENCIES
   mandrill-api
   newrelic_rpm
   pg
+  puma
   rails (= 4.1.7)
   rails_12factor
   random_password_generator
