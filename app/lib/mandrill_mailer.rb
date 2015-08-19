@@ -32,7 +32,7 @@ class MandrillMailer
     
   end
   
-  def self.send_template(template_name, recipient_name, recipient_email, merge_hash)
+  def self.send_template(template_name, recipient_name, recipient_email, merge_hash, test_mode=false)
       
     merge_vars = merge_hash.map { |k, v| {"name" => k, "content" => v} }
     
@@ -60,8 +60,15 @@ class MandrillMailer
         "from_name"=>"Real Ventures",
         "from_email"=>"admin@realventures.com"
       }
+      
+      instance = if test_mode
+        puts "MandrillMailer in TEST MODE"
+        self.mandrill_test_instance
+      else
+        self.mandrill_instance
+      end
 
-      result = self.mandrill_instance.messages.send_template template_name, [], message
+      result = instance.messages.send_template template_name, [], message
       
       puts "Mandrill"
       puts result
@@ -69,8 +76,21 @@ class MandrillMailer
     end
   end
   
+  def self.send_new_document_notification(user)
+    
+    merge_vars = {
+      "fname" => user.first_name
+    }
+    
+    self.send_template "lp-portal-new-document-notification", user.display_name, user.email, merge_vars, true
+  end
+  
   def self.mandrill_instance
     Mandrill::API.new ENV['MANDRILL_API_KEY']
+  end
+  
+  def self.mandrill_test_instance
+    Mandrill::API.new ENV['MANDRILL_API_TEST_KEY']
   end
   
 end
