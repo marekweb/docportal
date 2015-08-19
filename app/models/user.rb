@@ -64,11 +64,11 @@ class User < ActiveRecord::Base
     end
   end
   
-  def visible_documents
+  def visible_documents(base_relation=nil)
     if admin?
       DocumentFilter.find_documents_visible_to_admin
     else
-      DocumentFilter.find_documents_visible_to_user(self)
+      DocumentFilter.find_documents_visible_to_user(self, base_relation)
     end
   end
   
