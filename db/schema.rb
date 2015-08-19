@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150513160200) do
+ActiveRecord::Schema.define(version: 20150814191100) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -47,6 +47,11 @@ ActiveRecord::Schema.define(version: 20150513160200) do
     t.boolean  "visible_name"
   end
 
+  add_index "box_documents", ["entity_name"], name: "index_box_documents_on_entity_name", using: :btree
+  add_index "box_documents", ["fund"], name: "index_box_documents_on_fund", using: :btree
+  add_index "box_documents", ["fund_tag"], name: "index_box_documents_on_fund_tag", using: :btree
+  add_index "box_documents", ["visibility_tag"], name: "index_box_documents_on_visibility_tag", using: :btree
+
   create_table "document_views", force: true do |t|
     t.integer  "user_id"
     t.integer  "box_document_id"
@@ -64,10 +69,16 @@ ActiveRecord::Schema.define(version: 20150513160200) do
     t.datetime "updated_at"
   end
 
+  add_index "entities", ["id"], name: "index_entities_on_id", using: :btree
+  add_index "entities", ["name"], name: "index_entities_on_name", using: :btree
+
   create_table "entities_users", id: false, force: true do |t|
     t.integer "entity_id", null: false
     t.integer "user_id",   null: false
   end
+
+  add_index "entities_users", ["entity_id"], name: "index_entities_users_on_entity_id", using: :btree
+  add_index "entities_users", ["user_id"], name: "index_entities_users_on_user_id", using: :btree
 
   create_table "fund_memberships", force: true do |t|
     t.integer  "entity_id"
