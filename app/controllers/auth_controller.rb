@@ -9,7 +9,7 @@ class AuthController < ApplicationController
   def login
     redirect_param = params[:redirect]
 
-    user = User.find_by(email: params[:email]).try do |u|
+    user = User.where('lower(email) = ?', params[:email].downcase).first.try do |u|
       u.authenticate(params[:password])
     end
     
