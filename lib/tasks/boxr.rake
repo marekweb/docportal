@@ -113,11 +113,14 @@ namespace :boxr do
         entity_name: entity_name,
         visibility_tag: visibility_tag,
         upload_date: f.created_at,
-        synced_at: DateTime.now,
         box_view_id: box_view_id,
         visible_name: visible_name,
         etag: f.etag
       })
+      
+      if box_document.new_record?
+        box_document.synced_at = DateTime.now
+      end
       
       box_document.save
       
