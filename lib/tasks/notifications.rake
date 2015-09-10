@@ -23,8 +23,8 @@ namespace :notifications do
     notifiable_documents = user.visible_documents(recent_documents)
     
     if notifiable_documents.count > 0
-      puts "(TEST) Sending document notification to #{user.display_name}"
-      # MandrillMailer.send_notification_email(user)
+      puts "(NOTIFICATION) Sending document notification to #{user.display_name}"
+      MandrillMailer.send_new_document_notification(user)
     end
     
   end
