@@ -12,7 +12,6 @@ namespace :notifications do
       next
     end
     
-    next
     User.all.each do |user|
       send_notification_email(user, recent_documents)
     end
