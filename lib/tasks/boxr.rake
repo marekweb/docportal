@@ -118,7 +118,7 @@ namespace :boxr do
         etag: f.etag
       })
       
-      if box_document.new_record?
+      if box_document.synced_at.nil?
         box_document.synced_at = DateTime.now
       end
       

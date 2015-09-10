@@ -3,7 +3,7 @@ namespace :notifications do
   desc "Send daily notifications email to all users"
   task send: :environment do
     
-    recent_documents = BoxDocument.where('upload_date > ?', 24.hours.ago)
+    recent_documents = BoxDocument.where('synced_at > ?', 24.hours.ago)
     
     puts "Candidate documents for everyone: #{recent_documents.count}"
 
