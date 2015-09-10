@@ -20,12 +20,12 @@ namespace :notifications do
   end
   
   def send_notification_email(user, recent_documents) 
-    threshold_date = 1.day.ago
-    
+
     notifiable_documents = user.visible_documents(recent_documents)
     
     if notifiable_documents.count > 0
-      MandrillMailer.send_notification_email(user)
+      puts "(TEST) Sending document notification to #{user.display_name}"
+      # MandrillMailer.send_notification_email(user)
     end
     
   end
