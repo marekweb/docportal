@@ -10,13 +10,14 @@
         <label for="general_message">General Message (shown as a site-wide notice)</label>
         <div class="checkbox">
           <label>
-            <%= check_box_tag 'general_message_enabled', '1', @general_message_enabled, { disabled: 'disabled' } %>
+            <input name="general_message_enabled" type="hidden" value="0" />
+            <%= check_box_tag 'general_message_enabled', '1', @general_message_enabled %>
             Show General Message
           </label>
         </div>
         <textarea class="form-control" name="general_message" id="general_message" <% if !@general_message_enabled %> disabled="disabled" <% end %> ><%= @general_message %></textarea>
       </div>
-      
+
       <script>
         $('#general_message_enabled').on('change', function() {
           var val = this.checked
@@ -26,25 +27,25 @@
         })
       </script>
 
-      
+
+        <label>Daily Email Notifications</label>
+            <div class="checkbox">
+              <label>
+                <input name="notifications_enabled" type="hidden" value="0" />
+                <%= check_box_tag 'notifications_enabled', '1', @notifications_enabled %>
+                Enable daily email notifications to users when new documents are added.
+              </label>
+            </div>
+
+          <input type="submit" class="btn btn-primary" value="Save Settings"/>
       <% end %>
 
-      <!--<%= form_tag '/set_notfications' do %>-->
-      <!--  <label>Daily Email Notifications</label>-->
-      <!--      <div class="checkbox">-->
-      <!--        <label>-->
-      <!--          <%= check_box_tag 'notifications_enabled', '1', @notifications_enabled %>-->
-      <!--          Enable daily email notifications when new documents are added-->
-      <!--        </label>-->
-      <!--      </div>-->
-      <!--<% end %>-->
-    
-    
+
       <!--<div class="form-group">-->
       <!--  <% @dates.each do |d| %>-->
       <!--    <p><%= d.date %>: <%= d.files.length %></p>-->
       <!--  <% end %>-->
       <!--</div>-->
-    
+
 
   </div>

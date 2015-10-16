@@ -12,6 +12,12 @@ namespace :notifications do
       next
     end
     
+    box_access = BoxAccess.first
+    if !box_access.notifications_enabled
+      puts "Notifications are disabled; aborting notification."
+      next
+    end
+    
     User.all.each do |user|
       send_notification_email(user, recent_documents)
     end
