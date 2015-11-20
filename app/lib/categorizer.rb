@@ -14,7 +14,11 @@ class Categorizer
   def initialize(box_file)
     @path = box_file.path_collection['entries'].map{ |e| e["name"] }
   end
-
+  
+  def full_path
+    @path.join('/')  
+  end
+  
   def year
     @path.find do |p|
       # Pattern for detecting a year: "20XX"
@@ -64,7 +68,7 @@ class Categorizer
   def quarter
     @path.each do |p|
       # Pattern for matching quarters, case insensitive: Q1, Q2, Q3, Q4
-      return p[1].to_i if /\A[Qq]\s?[1-4]\Z/.match(p)
+      return p[1].to_i if /\A[Qq]\s?[1-4]\eZ/.match(p)
     end
 
     return nil

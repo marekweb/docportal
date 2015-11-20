@@ -115,7 +115,8 @@ namespace :boxr do
         upload_date: f.created_at,
         box_view_id: box_view_id,
         visible_name: visible_name,
-        etag: f.etag
+        etag: f.etag,
+        original_path: categorizer.full_path
       })
       
       if box_document.synced_at.nil?
