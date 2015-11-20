@@ -68,7 +68,7 @@ class Categorizer
   def quarter
     @path.each do |p|
       # Pattern for matching quarters, case insensitive: Q1, Q2, Q3, Q4
-      return p[1].to_i if /\A[Qq]\s?[1-4]\eZ/.match(p)
+      return p[1].to_i if /\A[Qq]\s?[1-4]\Z/.match(p)
     end
 
     return nil
