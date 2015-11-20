@@ -64,6 +64,7 @@
     <% end %>
     
     <% @documents.each do |d| %>
+    <div class="item-wrapper">
         <div class="item" data-debug="<%= d.debug_details %>">
           
           <div class="item-icons">
@@ -80,15 +81,17 @@
           <div class="item-subtitle">
             Uploaded on <%= d.upload_date %>
           </div>
-           <% if @current_user.admin? %>
+
+        </div>
+          <% if @current_user.admin? %>
             <div class="debug">
                 <%= "Fund #{d.fund}." if d.fund.present? %>
                 <%= "Visible to #{d.visibility_tag}." if d.visibility_tag.present? %>
                 <%= "(#{d.entity_name})" if d.entity_name.present?%>
-                <%= d.name %>
+                <%= d.name %><br/>
+                <%= d.original_path %>
             </div>
-            <% end %>
-
+          <% end %>
         </div>
     <% end %>
   </div>
