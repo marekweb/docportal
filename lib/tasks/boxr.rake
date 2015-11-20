@@ -86,6 +86,7 @@ namespace :boxr do
       visibility_tag = categorizer.visibility_tag
       entity_name = (categorizer.entity_name if visibility_tag == "entity")
       visible_name = categorizer.visible_name?
+      original_path == categorizer.full_path # The original full file path in the Box account.
       
       max_fund = [max_fund, fund].max
       years_set.add(year)
@@ -116,7 +117,7 @@ namespace :boxr do
         box_view_id: box_view_id,
         visible_name: visible_name,
         etag: f.etag,
-        original_path: categorizer.full_path
+        original_path: original_path
       })
       
       if box_document.synced_at.nil?
