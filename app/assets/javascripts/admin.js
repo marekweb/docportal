@@ -127,3 +127,36 @@ function delayedOnRowChanged() {
 
   window._autosaveTimeout = setTimeout(performSave, 4000);
 }
+
+
+$(function() {
+  var filterInput = $('.js-users-filter-input');
+  
+  $('.js-users-filter-clear').on('click', function() {
+    filterInput.val('');
+    users.css('display', 'block');
+  });
+  
+  var users = $('js-filterable-user');
+
+  filterInput.on('keyup', function() {
+    var filterString = $(this).val().toLowerCase();
+    
+    if (filterString == '') {
+      users.css('display', 'block');
+      return;
+    }
+    
+    users.each(function() {
+      var $user = $(this);
+      if ($user.data('filter-key').indexOf(filterString) != -1) {
+        $user.css('display', 'block');
+      } else {
+        $user.css('display', 'none');
+      }
+    });
+  });
+  
+  
+
+});

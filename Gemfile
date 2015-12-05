@@ -62,3 +62,6 @@ gem 'dotenv-rails', :groups => [:development, :test]
 gem 'newrelic_rpm'
 
 gem 'puma'
+
+# Added for front-end React
+gem 'react-rails', '~> 1.5.0'

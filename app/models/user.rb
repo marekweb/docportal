@@ -7,7 +7,6 @@ class User < ActiveRecord::Base
   validates :last_name, presence: true
   validates :password, length: { minimum: 8 }, allow_nil: true
   
-  #belongs_to :entity
   has_and_belongs_to_many :entities
   has_many :fund_memberships, through: :entities
 
@@ -70,6 +69,10 @@ class User < ActiveRecord::Base
     else
       DocumentFilter.find_documents_visible_to_user(self, base_relation)
     end
+  end
+  
+  def filter_key
+    [last_name, first_name, entities.map(&:name)].join(' ').downcase
   end
   
 end

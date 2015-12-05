@@ -12,5 +12,15 @@
 //
 //= require jquery
 //= require jquery_ujs
+//= require react
+//= require components
+//= require react_ujs
 //////////// no //= require turbolinks
 //= require_tree .
+
+
+var Element = function(props) {
+  return <p>Hello {props.name}</p>;
+}
+
+window.el = <Element name="world"/>;

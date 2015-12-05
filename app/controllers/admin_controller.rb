@@ -57,8 +57,8 @@ class AdminController < ApplicationController
   end
 
   def users
-    enabled_users = User.order(:last_name).where(enabled: true)
-    disabled_users = User.order(:last_name).where(enabled: false)
+    enabled_users = User.order(:last_name).where(enabled: true).includes(:entities)
+    disabled_users = User.order(:last_name).where(enabled: false).includes(:entities)
     @users = enabled_users + disabled_users
     @entities_for_select =  [OpenStruct.new({id:nil, name:'Add Entity'.html_safe})] + Entity.all.order(:name)
   end
@@ -140,6 +140,20 @@ class AdminController < ApplicationController
     User.find(id).try do |u|
       u.toggle :enabled
       u.save
+    end
+    redirect_to :back
+  end
+  
+  def delete_user
+    # To delete user, the user must be already disabled.
+    # This is to prevent accidental deletion of users
+    id = params[:id]
+    user = User.where(enabled: false).find(id)
+    if user.present?
+      User.delete(user)
+      flash[:notice] = "User deleted: #{user.display_name}"
+    else
+      flash[:notice] = "Cannot delete this user."
     end
     redirect_to :back
   end

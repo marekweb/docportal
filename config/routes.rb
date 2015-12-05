@@ -17,6 +17,7 @@ Rails.application.routes.draw do
   get 'admin', to: redirect('/users')
 
   post 'toggle_user_enabled' => 'admin#toggle_user_enabled'
+  post 'delete_user' => 'admin#delete_user'
   post 'send_activation' => 'admin#send_activation'
   post 'set_notifications' => 'admin#set_notifications'
   

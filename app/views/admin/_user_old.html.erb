@@ -1,0 +1,50 @@
+<tr data-filter-key="<%= u.filter_key %>" class="js-filterable-user user-row <%= "disabled-user" if !u.enabled %>" data-id="<%= u.id %>">
+      <td><input class="form-control" name="user[email]" value="<%= u.email %>" data-initial-value="<%= u.email %>" <%= 'disabled="disabled"' if !u.enabled %>></td>
+      <td><input class="form-control" name="user[first_name]" value="<%= u.first_name %>" data-initial-value="<%= u.first_name %>" <%= 'disabled="disabled"' if !u.enabled %>></td>
+      <td><input class="form-control" name="user[last_name]" value="<%= u.last_name %>" data-initial-value="<%= u.last_name %>" <%= 'disabled="disabled"' if !u.enabled %>></td>
+   
+    <td>
+       <% if !u.enabled %>
+      <div class="badge">Disabled</div>
+      <% end %>
+      
+      <% if u.admin? %>
+      <div class="badge">Admin</div>
+      <% end %>
+
+    </td>
+
+
+  </tr>
+  <tr data-filter-key="<%= u.filter_key %>" class="js-filterable-user user-row" data-id="<%= u.id %>">
+     <td colspan="4">
+      <%= select_tag(nil, options_from_collection_for_select(@entities_for_select, :id, :name, nil), class: "user-entity-add", disabled: ("disabled" if !u.enabled)) %>
+      <div style="display: inline-block" class="user-entities"><% u.entities.each do |e| %> <span data-entity-id="<%= e.id %>" class="user-entity"><%= e.name %><span class="user-entity-remove">&times;</span></span> <% end %></div>
+    </td>
+  </tr>
+  <tr data-filter-key="<%= u.filter_key %>" class="js-filterable-user user-row second-row">
+    
+    <td colspan="1">
+      <div class="row-buttons">
+        <% if !u.admin? %>
+          <% if u.enabled  %>
+            <%= post_form_button "De-activate User", "/toggle_user_enabled", "id", u.id, button_class: 'btn  btn-sm' %>
+          <% else %>
+            <%= post_form_button "Activate User", "/toggle_user_enabled", "id", u.id, button_class: 'btn btn-sm' %>
+            <%= post_form_button "Permanently Delete User", "/delete_user", "id", u.id, button_class: 'btn btn-sm' %>
+          <% end %>
+        <% end %>
+      </div>
+    </td>
+    
+    <td>
+      <% if u.current_sign_in_at.nil? && !u.admin? %>
+          <%= post_form_button  u.activation_sent_at.present? ? "Resend Activation" : "Send Activation", '/send_activation', "id", u.id, button_class: 'btn btn-sm' %>
+      <% end %>
+    </td>
+    
+    <td class="padded-cell">
+      <small><%= u.login_status_string if !u.admin? %> </td></small>
+    </td>
+
+  </tr>

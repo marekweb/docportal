@@ -88,6 +88,14 @@ class DocumentListController < ApplicationController
       categories_only_for_advisors = [8, 10, "advisor"]
       @sidebar_entries = @sidebar_entries.reject{ |e| categories_only_for_advisors.include? e.slug }
     end
+    
+    if params[:as_json]
+      render json: {
+        sidebar: @sidebar_entries,
+        documents: @documents
+      }
+      return
+    end
 
   end
 

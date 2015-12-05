@@ -1,0 +1,8 @@
+<div class="users-user" data-filter-key="<%= u.filter_key %>" style="border: 1px solid #a0a0a0; margin: 14px 0; padding: 10px">
+  <div class="users-user-name"><%= u.last_name %>, <%= u.first_name %> (<%= u.email %>)</div>
+  <div class="users-user-entities">
+    <% u.entities.each do |e| %>
+      <span class="user-entity"><%= e.name %></span>
+    <% end %>
+  </div>
+</div>
