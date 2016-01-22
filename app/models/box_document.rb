@@ -67,7 +67,31 @@ class BoxDocument < ActiveRecord::Base
   end
   
   def category_class
-    "cat#{(category || 0)}"
+    "category-icon-#{(category_icon_id || 0)}"
+  end
+  
+  def category_icon_id
+    icon_table = [
+      12, # Q. Reports: blue-graph
+      3, # Capital Calls: green-phone
+      7, # Distributions: red dollar
+      0, # Fin Stmts: blue-briefcase
+      2, # LPAs: blue-scale
+      8, # Acct Stmts: violet-calculator
+      11, # Tax Docs: violet-institution
+      9, # FATCA: violet-clipboard
+      10, # Other Docs
+      4, # Advisory Mtg Min: orange-clock
+      6, # Adv Pres: orange-presentation
+      5, # Adv Other Docs: orange-document
+      1, # General Docs: blue-document
+
+    ]
+    if category.nil?
+      return 1 # blue-document, used as the default icon
+    else
+      return icon_table[category]
+    end
   end
   
   def debug_details

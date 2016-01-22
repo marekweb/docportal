@@ -21,6 +21,25 @@ class DocumentListController < ApplicationController
     }
   end
   
+  def icon_for_category(category_id)
+    icon_table = [
+      12, # Q. Reports: blue-graph
+      3, # Capital Calls: green-phone
+      7, # Distributions: red dollar
+      0, # Fin Stmts: blue-briefcase
+      2, # LPAs: blue-scale
+      1, # General Docs: blue-document
+      8, # Acct Stmts: violet-calculator
+      11, # Tax Docs: violet-institution
+      9, # FATCA: violet-clipboard
+      10, # Other Docs
+      4, # Advisory Mtg Min: orange-clock
+      6, # Adv Pres: orange-presentation
+      5 # Adv Other Docs: orange-document
+    ]
+    return icon_table[category_id]
+  end
+  
   def sidebar_entries
     ["all", 0, 1, 2, 3, 4, 11, "divider", 5, 6, 7, "other", "divider", 8, 10, "advisor"].map do |i|
       name = if i == "divider" then nil elsif special_category_names.has_key?(i) then special_category_names[i] else Categorizer::Categories[i].pluralize end
