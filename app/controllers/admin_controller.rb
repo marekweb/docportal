@@ -50,7 +50,7 @@ class AdminController < ApplicationController
 
   def sync
     # Box access and sync information
-    @last_syncs = SyncEntry.order(:started_at).last(10).reverse
+    @last_syncs = SyncEntry.where('added_files > 0 OR removed_files > 0').order(:started_at).last(10).reverse
     @sync = SyncEntry.order(:id).last
     @box_access = BoxAccess.first
 
