@@ -77,14 +77,14 @@ class BoxDocument < ActiveRecord::Base
       7, # Distributions: red dollar
       0, # Fin Stmts: blue-briefcase
       2, # LPAs: blue-scale
-      1, # General Docs: blue-document
       8, # Acct Stmts: violet-calculator
       11, # Tax Docs: violet-institution
       9, # FATCA: violet-clipboard
       10, # Other Docs
       4, # Advisory Mtg Min: orange-clock
       6, # Adv Pres: orange-presentation
-      5 # Adv Other Docs: orange-document
+      5, # Adv Other Docs: orange-document
+      1 # General Docs: blue-document
     ]
     if category.nil?
       return 1 # blue-document, used as the default icon
