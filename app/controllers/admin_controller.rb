@@ -65,7 +65,7 @@ class AdminController < ApplicationController
 
   def entities
     @entities = Entity.all.order(:name)
-    @number_of_funds = 3
+    @number_of_funds = 4
 
     @fund_roles = ['&mdash;'.html_safe, 'LP Main', 'LP Parallel', 'Advisor'].zip([nil, 'lp-main', 'lp-parallel', 'advisor'])
   end
