@@ -34,7 +34,11 @@ class BoxViewClient
     # response status 202: not ready yet
     # response status 400: the file is not convertable
     self.logger.debug "box_view_create_session: response #{response.status}"
-    self.logger.debug response.to_json
+
+    # The following line is commented because it caused a 'stack level too deep'
+    # error, which started after a gem version update. Not know which gem caused it.
+    # self.logger.debug response.to_json
+
     if response.status == 201
         response_fields = JSON.parse(response.body)
         logger.debug "EXPIRES_AT #{response_fields['expires_at']}"
