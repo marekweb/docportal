@@ -1,8 +1,8 @@
-<div class="header">
+<div class="header" <% unless ENV['BRANDING_HEADER_COLOR'].blank? %> style="background-color: <%= ENV['BRANDING_HEADER_COLOR'] %>" <% end %> >
   <div class="container">
     <div class="col-xs-4">
       <a href="/">
-        <%= image_tag 'real-white.png', class: 'logo' %>
+        <%= image_tag 'branding/' + (ENV['BRANDING_HEADER_LOGO'] || 'default.png'), class: 'logo' %>
       </a>
     </div>
     <div class="col-xs-8">
@@ -28,9 +28,9 @@
           <span class="profile-dropdown <%= 'clickable' if @notifications.any? %>" data-toggle="dropdown">
             <!--<span class="profile-name"><%= current_user.display_name %></span>-->
             
-            <%= image_tag "icons/bell.png", class: "notification-icon" %>
+            <!--<%= image_tag "icons/bell.png", class: "notification-icon" %>-->
 
-            <span class="badge notification-badge"><%= @notification_count if @notification_count > 0 %></span>
+            <!--<span class="badge notification-badge"><%= @notification_count if @notification_count > 0 %></span>-->
           </span>
           <% if @notifications.any? %>
           <ul class="dropdown-menu dropdown-menu-right">

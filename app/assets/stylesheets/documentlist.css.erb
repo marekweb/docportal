@@ -32,7 +32,7 @@ a.item-link:link, a.item-link:visited {
 .header {
     height: 80px;
     margin-bottom: 80px;
-    background-color: #4a5a6a;
+    background-color: <%= ENV['BRANDING_HEADER_COLOR'] || '#303030' %>; /* <%= ENV['BRANDING_HEADER_COLOR'] %> */
     z-index: 10;
     position: relative
 }
@@ -54,6 +54,7 @@ a.item-link:link, a.item-link:visited {
   background-size: cover;
   background-position: center;
 }
+
 
 .circle.cat0 {
   background-image: url(<%= asset_path("icons2/blue-document.png") %>);

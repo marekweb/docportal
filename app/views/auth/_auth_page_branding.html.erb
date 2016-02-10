@@ -1,0 +1,5 @@
+<% if ENV['BRANDING_LOGIN_LOGO'].present? %>
+<%= image_tag 'branding/' + ENV['BRANDING_LOGIN_LOGO'], class: 'login-logo img-responsive center-block' %>
+<% end %>
+
+<h2><%= ENV['BRANDING_LOGIN_TITLE'] || 'LP Portal' %></h2>

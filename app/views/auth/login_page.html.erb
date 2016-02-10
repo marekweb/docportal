@@ -1,13 +1,12 @@
 
 <div class="box-wrapper">
-  
-  <%= image_tag 'real-login.png', class: 'login-logo img-responsive center-block' %>
-  
-  <h2>LP Portal</h2>
+
+  <%= render partial: 'auth_page_branding' %>
   
   <% if flash[:notice] %>
     <div class="alert alert-notice"><%= flash[:notice] %></div>
   <% end %>
+  
   <%= form_tag '/login' do |f| %>
 			<div class="form-group">
 				 <input placeholder="Email" name="email" type="email" class="form-control login-form-control" id="login_email" value="<%= @email %>"/>
