@@ -6,8 +6,11 @@
 #   cities = City.create([{ name: 'Chicago' }, { name: 'Copenhagen' }])
 #   Mayor.create(name: 'Emanuel', city: cities.first)
 
-if ENV['ADMIN_PASSWORD'].nil?
-  throw "Need to set ADMIN_PASSWORD for this task, to create admin user"
-end
+email = 'admin@example.com'
+pw = SecureRandom.hex
 
-admin_user = User.create!({first_name: "Real Ventures", last_name: "Admin", email: "admin@realventures.com", password: ENV['ADMIN_PASSWORD']})
+admin_user = User.create!({first_name: "Portal", last_name: "Admin", email: email, password: pw})
+
+puts "-" * 20
+puts "CREATED ADMIN WITH TEMPORARY ACCESS #{email}:#{pw}
+"puts "-" * 20
