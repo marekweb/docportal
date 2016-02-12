@@ -47,7 +47,7 @@ namespace :boxr do
     end
 
     puts "SYNC: Performing Box sync on folder tree"
-    root_folder_path = ENV['SYNC_FOLDER_NAME'] || 'LP Portal'
+    root_folder_name = ENV['SYNC_FOLDER_NAME'] || 'LP Portal'
     root_folder_with_leading_slash = "/" + root_folder_name
     synced_files = box_client.all_files_recursive_from_path(root_folder_with_leading_slash)
     puts "SYNC: Done syncing file list"
