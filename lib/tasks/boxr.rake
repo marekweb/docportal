@@ -83,7 +83,7 @@ namespace :boxr do
       year = categorizer.year
       month = categorizer.month
       quarter = categorizer.quarter
-      fund = categorizer.fund
+      fund = categorizer.fund || 0 # This default is needed because it must not be nil
       fund_tag = categorizer.fund_tag
       visibility_tag = categorizer.visibility_tag
       entity_name = (categorizer.entity_name if visibility_tag == "entity")
