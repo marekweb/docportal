@@ -11,6 +11,8 @@ pw = SecureRandom.hex
 
 admin_user = User.create!({first_name: "Portal", last_name: "Admin", email: email, password: pw})
 
+box_access = BoxAccess.create!
+
 puts "-" * 20
 puts "CREATED ADMIN WITH TEMPORARY ACCESS #{email}:#{pw}"
 puts "-" * 20

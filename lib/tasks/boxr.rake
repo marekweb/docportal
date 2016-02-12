@@ -47,7 +47,9 @@ namespace :boxr do
     end
 
     puts "SYNC: Performing Box sync on folder tree"
-    synced_files = box_client.all_files_recursive_from_path("/LP Portal")
+    root_folder_path = ENV['SYNC_FOLDER_NAME'] || 'LP Portal'
+    root_folder_with_leading_slash = "/" + root_folder_name
+    synced_files = box_client.all_files_recursive_from_path(root_folder_with_leading_slash)
     puts "SYNC: Done syncing file list"
 
     
@@ -138,16 +140,6 @@ namespace :boxr do
     
     SyncEntry.record_sync_end(synced_box_ids.length, created_box_ids.length, destroyed_box_ids.length)
 
-    
-  end
-  
-  task test: :enviroment do
-    b = BoxrSync.new
-    
-    f = b.client.folder_from_path('/LP Portal/Fund 1/LPs/Capital Calls/2014')
-    
-    f = b.client.folder(f.id)
-    
     
   end
 
