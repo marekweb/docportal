@@ -22,10 +22,9 @@ class AdminController < ApplicationController
       puts "ERROR " +flash[:notice]
     else
       # User was created.
-      # Immediately send the activation mail?
-
-      # Commented out, because the email is not sent right away
-      #MandrillMailer.send_activation @user
+      # It was decided to *not* trigger the sending of the activation email
+      # immediately. Instead it is triggered by the `send_activation` action of
+      # this controller.
     end
 
 
@@ -163,7 +162,7 @@ class AdminController < ApplicationController
     User.find(id).try do |u|
       # If the user has already signed in then activation should not happen again
       if u.current_sign_in_at.nil?
-        MandrillMailer.send_activation(u)
+        SendgridMailer.send_activation(u)
       end
     end
     redirect_to '/users'

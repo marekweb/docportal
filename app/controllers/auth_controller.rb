@@ -41,7 +41,7 @@ class AuthController < ApplicationController
       u.reset_password_sent_at = DateTime.now
       u.save
 
-      MandrillMailer.send_password_reset(u)
+      SendgridMailer.send_password_reset(u)
       
       flash[:notice] = "A message was sent to #{@email} with instructions."
       redirect_to '/login'

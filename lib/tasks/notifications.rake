@@ -30,7 +30,7 @@ namespace :notifications do
     
     if notifiable_documents.count > 0
       puts "(NOTIFICATION) Sending document notification to #{user.display_name}"
-      MandrillMailer.send_new_document_notification(user)
+      SendgridMailer.send_new_document_notification(user)
     end
     
   end
