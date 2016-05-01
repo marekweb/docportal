@@ -89,6 +89,7 @@ GEM
       excon (>= 0.16.0, < 1.0)
       json (>= 1.7.7, < 2.0)
     mime-types (2.99)
+    mimemagic (0.3.1)
     minitest (5.8.4)
     multi_json (1.11.2)
     multi_xml (0.5.5)
@@ -154,6 +155,11 @@ GEM
     sdoc (0.4.1)
       json (~> 1.7, >= 1.7.7)
       rdoc (~> 4.0)
+    sendgrid-ruby (1.1.6)
+      faraday (~> 0.9)
+      mimemagic
+      smtpapi (~> 0.1)
+    smtpapi (0.1.0)
     spring (1.6.2)
     sprockets (2.12.4)
       hike (~> 1.2)
@@ -202,6 +208,7 @@ DEPENDENCIES
   ruby-box
   sass-rails (~> 4.0.3)
   sdoc (~> 0.4.0)
+  sendgrid-ruby
   spring
   sqlite3
   turbolinks

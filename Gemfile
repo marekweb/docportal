@@ -48,7 +48,11 @@ gem 'faraday'
 
 gem 'devise'
 
+# Being removed:
 gem 'mandrill-api'
+
+# Added to replace Mandrill
+gem 'sendgrid-ruby'
 
 gem 'random_password_generator'
 
@@ -66,3 +70,4 @@ gem 'puma'
 
 # Added for front-end React
 gem 'react-rails', '~> 1.5.0'
+
