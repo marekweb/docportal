@@ -22,11 +22,16 @@ class DocumentViewController < ApplicationController
       url = "https://view-api.box.com/1/sessions/#{document_session_id}/content"
       redirect_to url
     else
-      conversion_succeeded = BoxViewClient.do_box_view_conversion_and_update_box_view_id_on_document(box_document)
+      attempt_reconversion_or_missing_file_message
+    end
+  end
+  
+  def attempt_reconversion_or_missing_file_message
+    conversion_succeeded = BoxViewClient.do_box_view_conversion_and_update_box_view_id_on_document(box_document)
       if conversion_succeeded
         render_page_reload
       else
-        render_missing_file_message
+        attempt_reconversion_or_missing_file_message
       end
     end
   end
