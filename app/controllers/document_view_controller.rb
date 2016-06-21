@@ -9,7 +9,7 @@ class DocumentViewController < ApplicationController
       url = "https://view-api.box.com/1/sessions/#{document_session_id}/view"
       redirect_to url
     else
-      render_missing_file_message
+      attempt_reconversion_or_missing_file_message
     end
   end
 
@@ -31,7 +31,7 @@ class DocumentViewController < ApplicationController
     if conversion_succeeded
       render_page_reload
     else
-      attempt_reconversion_or_missing_file_message
+      render_missing_file_message
     end
   end
   
