@@ -35,7 +35,7 @@ class BoxViewClient
     # response status 400: the file is not convertable
     self.logger.debug "box_view_create_session: response #{response.status}"
     
-    if response.status.to_i > 400
+    if response.status.to_i >= 400
       self.logger.debug response.body
     end
 
