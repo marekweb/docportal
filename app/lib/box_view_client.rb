@@ -115,7 +115,7 @@ class BoxViewClient
   # and obtain a new box_view_id which can then be used to create view sessions that give
   # temporary access (as a short-lived session id) to the file for the front-end file viewer.
   # This method was added when some files were returning 400 when trying to get sessions
-  def do_box_view_conversion_and_update_box_view_id_on_document(doc)
+  def self.do_box_view_conversion_and_update_box_view_id_on_document(doc)
     bs = BoxrSync.new
     bdoc = bs.client.file_from_id(doc.box_file_id, fields: [:download_url, :etag])
 
