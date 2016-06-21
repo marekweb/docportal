@@ -117,12 +117,12 @@ class BoxViewClient
   # This method was added when some files were returning 400 when trying to get sessions
   def self.do_box_view_conversion_and_update_box_view_id_on_document(doc)
     bs = BoxrSync.new
-    bdoc = bs.client.file_from_id(doc.box_file_id, fields: [:download_url, :etag])
+    box_api_document = bs.client.file_from_id(doc.box_file_id, fields: [:download_url, :etag])
 
-    box_view_id = BoxViewClient.convert_document(download_url)
+    box_view_id = BoxViewClient.convert_document(box_api_document.download_url)
 
     doc.box_view_id = box_view_id
-    doc.etag = bdoc.etag
+    doc.etag = box_api_document.etag
     doc.save
   end
 
