@@ -28,11 +28,10 @@ class DocumentViewController < ApplicationController
   
   def attempt_reconversion_or_missing_file_message
     conversion_succeeded = BoxViewClient.do_box_view_conversion_and_update_box_view_id_on_document(box_document)
-      if conversion_succeeded
-        render_page_reload
-      else
-        attempt_reconversion_or_missing_file_message
-      end
+    if conversion_succeeded
+      render_page_reload
+    else
+      attempt_reconversion_or_missing_file_message
     end
   end
   
