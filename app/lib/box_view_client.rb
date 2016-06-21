@@ -34,6 +34,10 @@ class BoxViewClient
     # response status 202: not ready yet
     # response status 400: the file is not convertable
     self.logger.debug "box_view_create_session: response #{response.status}"
+    
+    if response.status > 400
+      self.logger.debug response.body
+    end
 
     # The following line is commented because it caused a 'stack level too deep'
     # error, which started after a gem version update. Not know which gem caused it.
