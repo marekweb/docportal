@@ -121,9 +121,15 @@ class BoxViewClient
 
     box_view_id = BoxViewClient.convert_document(box_api_document.download_url)
 
-    doc.box_view_id = box_view_id
-    doc.etag = box_api_document.etag
-    doc.save
+    if box_view_id.nil?
+      puts "do_box_view_conversion_and_update_box_view_id_on_document: failed. box_view_id returned is nil"
+      return nil
+    else
+      doc.box_view_id = box_view_id
+      doc.etag = box_api_document.etag
+      doc.save
+    end
+    
   end
 
 end
