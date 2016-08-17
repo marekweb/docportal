@@ -18,7 +18,7 @@ class SendgridMailer
       ":email" => user.email,
     }
 
-    self.send_template template_id_for_account_creation, user.display_name, user.email, merge_vars
+    self.send_template_v3 template_id_for_account_creation, user.display_name, user.email, merge_vars
 
     user.activation_sent_at = DateTime.now
     user.save
@@ -33,7 +33,7 @@ class SendgridMailer
       ":email" => user.email
     }
 
-    self.send_template template_id_for_password_reset, user.display_name, user.email, merge_vars
+    self.send_template_v3 template_id_for_password_reset, user.display_name, user.email, merge_vars
     user.reset_password_sent_at = DateTime.now
     user.save
 
@@ -69,11 +69,14 @@ class SendgridMailer
       end
 
       unless test_mode
-        client = sendgrid_client_instance
-        res = client.send(mail)
+        sendgrid_client = sendgrid_client_instance
+        puts sendgrid_client.display
+        puts mail
+        # res = client.send("123")
+        res = sendgrid_client.send(mail)
 
-        puts res.code
-        puts res.body
+        puts res.code.display
+        puts res.body.display
 
       else
         puts "SendGrid email not sent; test mode is active."
@@ -84,7 +87,10 @@ class SendgridMailer
   end
 
   def self.send_new_document_notification(user)
-
+    # TODO This is not actually being used at all, and it doesn't have the correct
+    # template ID. See the other mail methods in this file, and use them as a model
+    # for how to make this method work in the future, if it's decided to enable this.
+    
     merge_vars = {
       "fname" => user.first_name
     }
@@ -94,9 +100,36 @@ class SendgridMailer
   end
 
   def self.sendgrid_client_instance
-    client = SendGrid::Client.new do |c|
+    sendgrid_client = SendGrid::Client.new do |c|
       c.api_key = ENV['SENDGRID_API_KEY']
     end
   end
+  
+  def self.send_template_v3(template_id, recipient_name, recipient_email, merge_hash, test_mode=false)
+    sg = SendGrid::API.new(api_key: ENV['SENDGRID_API_KEY'])
+    
+    email = SendGrid::Mail.new
+    email.from = SendGrid::Email.new(email: 'admin@realventures.com', name: 'Real Ventures')
+    # email.subject = "Your Email's Subject"
+    
+    p = SendGrid::Personalization.new
+    p.to = SendGrid::Email.new(email: recipient_email, name: recipient_name)
+    
+    merge_hash.each do |key, value|
+      p.substitutions = SendGrid::Substitution.new(key: key, value: value)
+    end
 
+    email.personalizations = p
+    
+    email.template_id = template_id
+    
+    unless test_mode
+      response = sg.client.mail._('send').post(request_body: email.to_json)
+      
+      puts response.status_code
+      puts response.body
+      puts response.headers
+    end
+    
+  end
 end

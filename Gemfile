@@ -1,6 +1,6 @@
 source 'https://rubygems.org'
 
-ruby '2.2.4'
+ruby '2.2.5'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '4.1.14.1'
@@ -52,7 +52,7 @@ gem 'devise'
 gem 'mandrill-api'
 
 # Added to replace Mandrill
-gem 'sendgrid-ruby', '~> 3.0.7'
+gem 'sendgrid-ruby', '~> 4.0.2'
 
 gem 'random_password_generator'
 
