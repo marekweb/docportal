@@ -52,7 +52,7 @@ gem 'devise'
 gem 'mandrill-api'
 
 # Added to replace Mandrill
-gem 'sendgrid-ruby'
+gem 'sendgrid-ruby', '~> 3.0.7'
 
 gem 'random_password_generator'
 
