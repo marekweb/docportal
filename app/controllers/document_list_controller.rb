@@ -102,7 +102,7 @@ class DocumentListController < ApplicationController
     @sidebar_entries = sidebar_entries
     
     # For non-advisors, remove the advisor-only categories
-    # TODO this could better be replacd by showing categories only by the number of files
+    # TODO this could better be replaced by showing categories only by the number of files
     if !current_user.admin? && !current_user.advisor?
       categories_only_for_advisors = [8, 10, "advisor"]
       @sidebar_entries = @sidebar_entries.reject{ |e| categories_only_for_advisors.include? e.slug }

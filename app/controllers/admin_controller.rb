@@ -27,7 +27,6 @@ class AdminController < ApplicationController
       # this controller.
     end
 
-
     redirect_to "/users"
   end
 
@@ -52,7 +51,6 @@ class AdminController < ApplicationController
     @last_syncs = SyncEntry.where('added_files > 0 OR removed_files > 0').order(:started_at).last(10).reverse
     @sync = SyncEntry.order(:id).last
     @box_access = BoxAccess.first
-
   end
 
   def users
@@ -64,8 +62,9 @@ class AdminController < ApplicationController
 
   def entities
     @entities = Entity.all.order(:name)
-    @number_of_funds = 4
+    @number_of_funds = 5
 
+    # List of fund roles. The first role (nil) is no role, it means there is no association with the fund.
     @fund_roles = ['&mdash;'.html_safe, 'LP Main', 'LP Parallel', 'Advisor'].zip([nil, 'lp-main', 'lp-parallel', 'advisor'])
   end
 

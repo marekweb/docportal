@@ -77,13 +77,14 @@ class Categorizer
   def fund
     @path.each do |p|
       # Pattern for matching fund, case insentitive: "Fund X" where X is a digit
-      return p[5].to_i if /\A[Ff]und [1-9]\Z/.match(p)
+      return p[5].to_i if /\A[Ff]und [1-9]/.match(p)
     end
 
     return nil
   end
 
   def fund_tag
+    # A fund tag characterizes the fund as: Main or Parallel
     @path.each do |p|
       p = p.downcase
       return p if FundTags.index(p) != nil
@@ -93,6 +94,7 @@ class Categorizer
   end
 
   def visibility_tag
+    # A visibility tag indicates to whom a file is visible: LPs, Advisors, or Entities
     @path.each do |p|
       p = p.downcase.singularize
       return p if VisibilityTags.index(p) != nil
@@ -137,6 +139,4 @@ class Categorizer
     warn "Categorizer.extract_path_entries is deprecated"
     file.path_collection.entries.map{ |e| e["name"] }
   end
-
-
 end
