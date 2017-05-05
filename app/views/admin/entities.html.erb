@@ -1,9 +1,7 @@
 <%= render partial: "common/navbar" %>
 
 <div class="container">
-  
     <%= render partial: 'admin_menu' %>
-
   
   <%= form_tag "create_entity", class: "form form-inline" do %>
 <input type="text" name="name" class="form-control">
@@ -16,7 +14,7 @@
       Name
     </th>
     <% (1..@number_of_funds).each do |i| %>
-      <th style="width: 100px">Fund <%= i %></th>
+      <th style="width: 100px">Fund <%= i %><br/>(<%= fund_display_name(i)%>)</th>
     <% end %>
     <th>Delete</th>
   </tr>

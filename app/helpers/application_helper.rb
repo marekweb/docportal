@@ -9,4 +9,8 @@ module ApplicationHelper
     controller.current_user
   end
   
+  def fund_display_name(fund_number)
+    FundDisplayNames.get_display_name_for_fund_number(fund_number)
+  end
+  
 end

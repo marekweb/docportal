@@ -28,7 +28,8 @@ class BoxDocument < ActiveRecord::Base
     end
 
     if fund.present?
-      extra_info << "Fund #{fund}"
+      # Add the fund display name, if it's a known fund, or "Fund N" if there's no known name.
+      extra_info << FundDisplayNames.get_display_name_for_fund_number(fund)
     end
 
     if extra_info.any?
@@ -96,7 +97,6 @@ class BoxDocument < ActiveRecord::Base
   def debug_details
     "visibility=#{visibility_tag} fund=#{fund} fund_tag=#{fund_tag} category=#{category} entity=#{entity_name}"
   end
-
 
   def mark_opened(user)
     mark_action(user, "opened")
