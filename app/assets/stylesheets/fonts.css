@@ -1,0 +1,19 @@
+@font-face {
+	font-family: 'Calibre Web';
+	src: url('/webfonts/CalibreWeb-Light.eot');
+	src: url('/webfonts/CalibreWeb-Light.eot#iefix') format('embedded-opentype'),
+		url('/webfonts/CalibreWeb-Light.woff2') format('woff2'),
+		url('/webfonts/CalibreWeb-Light.woff') format('woff');
+	font-weight: normal;
+	font-style: normal;
+}
+
+@font-face {
+	font-family: 'Calibre Web';
+	src: url('/webfont/CalibreWeb-Bold.eot');
+	src: url('/webfonts/CalibreWeb-Bold.eot#iefix') format('embedded-opentype'),
+		url('/webfonts/CalibreWeb-Bold.woff2') format('woff2'),
+		url('/webfonts/CalibreWeb-Bold.woff') format('woff');
+	font-weight: bold;
+	font-style: normal;
+}
