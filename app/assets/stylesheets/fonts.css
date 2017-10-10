@@ -1,0 +1,9 @@
+@font-face {
+	font-family: 'Calibre Web';
+	src: url('<%= asset_path('fonts/CalibreWeb-Regular.eot') %>');
+	src: url('<%= asset_path('fonts/CalibreWeb-Regular.eot') %>#iefix') format('embedded-opentype'),
+		url('<%= asset_path('fonts/CalibreWeb-Regular.woff2') %>') format('woff2'),
+		url('<%= asset_path('fonts/CalibreWeb-Regular.woff') %>') format('woff');
+	font-weight: normal;
+	font-style: normal;
+}
