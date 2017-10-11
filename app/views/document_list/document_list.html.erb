@@ -22,7 +22,7 @@
         <div class="sidebar-spacer"></div>
       <% end %>
       <div class="sidebar-item">
-        <a href="/list/<%= @year_string %>/<%= e.slug %>" class="sidebar-link <%= "sidebar-item-active" if e.slug == @category_string %>"><%= e.name %></a>
+        <a href="/list/<%= @year_string %>/<%= e.slug %>" class="sidebar-link <%= "sidebar-item-active" if e.slug.to_s == @category_string %>"><%= e.name %></a>
       </div>
       <% end %>
       
