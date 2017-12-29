@@ -27,6 +27,8 @@ Rails.application.routes.draw do
   get "list/:year/:category" => "document_list#document_list"
   
   get "view/:id" => "document_view#view_document"
+  get "view2/:id" => "document_view#view_document2"
+
   get "download/:id" => "document_view#download_document"
   
   get 'box_login' => 'box_access#box_login'

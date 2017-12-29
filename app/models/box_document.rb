@@ -66,6 +66,10 @@ class BoxDocument < ActiveRecord::Base
   def view_link
     "/view/#{id}"
   end
+  
+  def view_link2
+    "/view2/#{id}"
+  end
 
   def category_class
     "category-icon-#{(category_icon_id || 0)}"

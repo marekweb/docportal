@@ -12,6 +12,15 @@ class DocumentViewController < ApplicationController
       attempt_reconversion_or_missing_file_message(box_document)
     end
   end
+  
+  def view_document2
+    box_access = BoxAccess.first
+    box_document = BoxDocument.find(params[:id])
+    
+    embed_url = NewBoxViewClient.box_get_embed_link(box_access.token, box_document.box_file_id)
+    puts embed_url
+    redirect_to embed_url['url']
+  end
 
   def download_document
     box_document = BoxDocument.find params[:id]
