@@ -19,7 +19,7 @@ class DocumentViewController < ApplicationController
     
     embed_url = NewBoxViewClient.box_get_embed_link(box_access.token, box_document.box_file_id)
     puts embed_url
-    redirect_to embed_url['url']
+    redirect_to embed_url['url'] + '?showDownload=true'
   end
 
   def download_document
