@@ -30,7 +30,8 @@ Rails.application.routes.draw do
   get "view2/:id" => "document_view#view_document2"
 
   get "download/:id" => "document_view#download_document"
-  
+  get "download2/:id" => "document_view#download_document2"
+    
   get 'box_login' => 'box_access#box_login'
   get 'box_redirect' => 'box_access#box_redirect'
   

@@ -21,6 +21,14 @@ class DocumentViewController < ApplicationController
     puts embed_url
     redirect_to embed_url['url'] + '?showDownload=true'
   end
+  
+  def download_document2
+   box_access = BoxAccess.first
+    box_document = BoxDocument.find(params[:id])
+    
+    download_url = NewBoxViewClient.box_get_download_link(box_access.token, box_document.box_file_id)
+    redirect_to download_url
+  end
 
   def download_document
     box_document = BoxDocument.find params[:id]

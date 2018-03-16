@@ -9,9 +9,43 @@ class NewBoxViewClient
     conn.headers['Content-Type'] = 'application/json'
     conn
   end
+  
+  def self.box_make_get_request(box_token, document_id, path='')
+    request_url = 'https://api.box.com/2.0/files/' + document_id + path
+    conn = self.box_view_conn
+    conn.headers['Authorization'] = "Bearer #{box_token}"
+    response = conn.get(request_url)
+    self.logger.debug "box_get_embed_link: response #{response.status}"
+    if response.status.to_i >= 400
+      self.logger.debug response.body
+    end
+    
+    if response.status == 200
+        return JSON.parse(response.body)
+    else
+      return nil
+    end
+    
+  end
+  
+  def self.box_get_download_link(box_token, document_id)
+    response = self.box_make_get_request(box_token, document_id, '?fields=download_url')
+    puts 'RESPONSE'
+    puts response
+    if response.present? 
+      return response['download_url']
+    end
+  end
+  
+  def self.box_get_embed_link(box_token, document_id)
+    response = self.box_make_get_request(box_token, document_id, '?fields=expiring_embed_link')
+    if response.present?
+      return response['expiring_embed_link']
+    end
+  end
 
   # returns (session id, DateTime expiration)
-  def self.box_get_embed_link(box_token, document_id)
+  def self.box_get_embed_link_deleteme(box_token, document_id)
     request_url = 'https://api.box.com/2.0/files/' + document_id + '?fields=expiring_embed_link'
   
     conn = self.box_view_conn
@@ -34,7 +68,8 @@ class NewBoxViewClient
     if response.status == 200
         response_fields = JSON.parse(response.body)
         logger.debug "expiring_embed_link = #{response_fields['expiring_embed_link']}"
-        return response_fields['expiring_embed_link']
+        expiring_embed_link = response_fields['expiring_embed_link']
+        return expiring_embed_link
     else
         return nil
     end
