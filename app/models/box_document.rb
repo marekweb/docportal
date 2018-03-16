@@ -60,7 +60,7 @@ class BoxDocument < ActiveRecord::Base
   end
 
   def download_link
-    "/download/#{id}"
+    "/download2/#{id}"
   end
 
   def view_link
