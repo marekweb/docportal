@@ -35,10 +35,12 @@ class BoxrSync
       if i.type == "file"
         files << i
       elsif i.type == "folder"
+        puts "BOXR entering folder: ${i.name}"
+        
         # Rate limiting
         # Box API docs don't say what the rate limit is so this is
         # a guess
-        #sleep 0.1
+        sleep 0.05
 
         # Recurse
         recursive_files = all_files_recursive(i.id)

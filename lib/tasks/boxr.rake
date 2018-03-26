@@ -15,6 +15,12 @@ namespace :boxr do
     end
   end
   
+  task refresh: :environment do
+    puts 'TOKEN REFRESH: starting'
+    box_client = BoxrSync.new
+    puts 'TOKEN REFRESH: done'
+  end
+  
   desc "Sync the system with a Box account using the Content API"
   task sync: :environment do
     
@@ -96,9 +102,6 @@ namespace :boxr do
       download_url = f.download_url
       
       box_document = BoxDocument.find_or_create_by({box_file_id: f.id})
-      
-      # Delay for rate limit
-      sleep 0.1
       
       box_document.assign_attributes({
         name: f.name,
