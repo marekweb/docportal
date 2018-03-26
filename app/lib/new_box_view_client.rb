@@ -17,7 +17,8 @@ class NewBoxViewClient
     response = conn.get(request_url)
     self.logger.debug "box_make_get_request: response=#{response.status} document_id=#{document_id} token=#{box_token}"
     if response.status.to_i >= 400
-      self.logger.debug response.body
+      self.logger.debug response.headers
+      self.logger.debug "body=#{response.body}"
     end
     
     if response.status == 200
