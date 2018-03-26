@@ -15,7 +15,7 @@ class NewBoxViewClient
     conn = self.box_view_conn
     conn.headers['Authorization'] = "Bearer #{box_token}"
     response = conn.get(request_url)
-    self.logger.debug "box_get_embed_link: response #{response.status}"
+    self.logger.debug "box_make_get_request: response=#{response.status} document_id=#{document_id} token=#{box_token}"
     if response.status.to_i >= 400
       self.logger.debug response.body
     end
