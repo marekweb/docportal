@@ -97,13 +97,8 @@ namespace :boxr do
       
       box_document = BoxDocument.find_or_create_by({box_file_id: f.id})
       
-      if box_document.box_view_id.nil? || box_document.etag != f.etag
-        box_view_id = BoxViewClient.convert_document(download_url)
-        # Delay for rate limit
-        sleep 0.2
-      else
-        box_view_id = box_document.box_view_id
-      end
+      # Delay for rate limit
+      sleep 0.1
       
       box_document.assign_attributes({
         name: f.name,
@@ -116,7 +111,6 @@ namespace :boxr do
         entity_name: entity_name,
         visibility_tag: visibility_tag,
         upload_date: f.created_at,
-        box_view_id: box_view_id,
         visible_name: visible_name,
         etag: f.etag,
         original_path: original_path

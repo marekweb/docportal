@@ -76,28 +76,28 @@ class NewBoxViewClient
 
   end
 
-  def self.box_get_view_session(box_document)
+  # def self.box_get_view_session(box_document)
 
-    box_view_id = box_document.box_view_id
+  #   box_view_id = box_document.box_view_id
 
-    self.logger.debug "Looking up box_view_id = #{box_view_id}"
+  #   self.logger.debug "Looking up box_view_id = #{box_view_id}"
 
-    if box_document.box_session_id.present? && box_document.box_session_expiration.present? && box_document.box_session_expiration > 1.minute.from_now
-      self.logger.debug "Already has a recent session"
-      document_session_id = box_document.box_session_id
-    else
-      self.logger.debug "Creating a new session"
-      document_session_id, document_session_expiration = self.box_view_create_session(box_view_id)
-      if document_session_id.present?
-        box_document.box_session_id = document_session_id
-        box_document.box_session_expiration = document_session_expiration
-        box_document.save
-      end
-    end
+  #   if box_document.box_session_id.present? && box_document.box_session_expiration.present? && box_document.box_session_expiration > 1.minute.from_now
+  #     self.logger.debug "Already has a recent session"
+  #     document_session_id = box_document.box_session_id
+  #   else
+  #     self.logger.debug "Creating a new session"
+  #     document_session_id, document_session_expiration = self.box_view_create_session(box_view_id)
+  #     if document_session_id.present?
+  #       box_document.box_session_id = document_session_id
+  #       box_document.box_session_expiration = document_session_expiration
+  #       box_document.save
+  #     end
+  #   end
 
-    self.logger.debug "Session id = #{document_session_id}"
-    document_session_id
-  end
+  #   self.logger.debug "Session id = #{document_session_id}"
+  #   document_session_id
+  # end
 
   def self.make_request(url, body)
     conn = self.box_view_conn
@@ -138,21 +138,21 @@ class NewBoxViewClient
   # and obtain a new box_view_id which can then be used to create view sessions that give
   # temporary access (as a short-lived session id) to the file for the front-end file viewer.
   # This method was added when some files were returning 400 when trying to get sessions
-  def self.do_box_view_conversion_and_update_box_view_id_on_document(doc)
-    bs = BoxrSync.new
-    box_api_document = bs.client.file_from_id(doc.box_file_id, fields: [:download_url, :etag])
+  # def self.do_box_view_conversion_and_update_box_view_id_on_document(doc)
+  #   bs = BoxrSync.new
+  #   box_api_document = bs.client.file_from_id(doc.box_file_id, fields: [:download_url, :etag])
 
-    box_view_id = BoxViewClient.convert_document(box_api_document.download_url)
+  #   box_view_id = BoxViewClient.convert_document(box_api_document.download_url)
 
-    if box_view_id.nil?
-      puts "do_box_view_conversion_and_update_box_view_id_on_document: failed. box_view_id returned is nil"
-      return nil
-    else
-      doc.box_view_id = box_view_id
-      doc.etag = box_api_document.etag
-      doc.save
-    end
+  #   if box_view_id.nil?
+  #     puts "do_box_view_conversion_and_update_box_view_id_on_document: failed. box_view_id returned is nil"
+  #     return nil
+  #   else
+  #     doc.box_view_id = box_view_id
+  #     doc.etag = box_api_document.etag
+  #     doc.save
+  #   end
     
-  end
+  # end
 
 end
