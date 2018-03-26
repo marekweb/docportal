@@ -17,6 +17,10 @@ class BoxrSync
     end
 
   end
+  
+  def current_user
+      @client.current_user
+  end
 
   def all_files_recursive_from_path(path)
     folder = @client.folder_from_path(path)
@@ -40,7 +44,7 @@ class BoxrSync
         # Rate limiting
         # Box API docs don't say what the rate limit is so this is
         # a guess
-        sleep 0.05
+        # sleep 0.05
 
         # Recurse
         recursive_files = all_files_recursive(i.id)
