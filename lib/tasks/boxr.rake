@@ -18,6 +18,7 @@ namespace :boxr do
   task refresh: :environment do
     puts 'TOKEN REFRESH: starting'
     box_client = BoxrSync.new
+    puts box_client.current_user
     puts 'TOKEN REFRESH: done'
   end
   
