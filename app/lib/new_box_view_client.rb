@@ -10,6 +10,7 @@ class NewBoxViewClient
     conn
   end
   
+ 
   def self.box_make_get_request(box_token, document_id, path='')
     request_url = 'https://api.box.com/2.0/files/' + document_id + path
     conn = self.box_view_conn
@@ -27,6 +28,18 @@ class NewBoxViewClient
       return nil
     end
     
+  end
+  
+  def self.box_get_download_link2(document_id)
+    bs = BoxrSync.new
+    box_api_document = bs.client.file_from_id(document_id, fields: [:download_url, :etag])
+    return box_api_document.download_url
+  end
+  
+  def self.box_get_embed_link2(document_id)
+    bs = BoxrSync.new
+    box_api_document = bs.client.file_from_id(document_id, fields: [:expiring_embed_link])
+    return box_api_document.expiring_embed_link
   end
   
   def self.box_get_download_link(box_token, document_id)

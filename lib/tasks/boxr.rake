@@ -78,9 +78,8 @@ namespace :boxr do
     
     max_fund = 0 # Track the maximum fund number
     years_set = Set.new
-    
-    # 
-    
+  
+
     synced_files.each do |f|
       
       categorizer = Categorizer.new(f)
@@ -135,9 +134,9 @@ namespace :boxr do
     destroyed_box_ids.each do |id|
       BoxDocument.find_by(box_file_id: id).destroy
     end
-    
+    puts "SYNC: completed all work - about to record sync end in sync entry"
     SyncEntry.record_sync_end(synced_box_ids.length, created_box_ids.length, destroyed_box_ids.length)
-
+    puts "SYNC: DONE -- sync entry recorded, exiting rake task"
     
   end
 

@@ -32,8 +32,19 @@ class BoxrSync
   def all_files_recursive(folder)
     files = []
     
-    all_items = @client.folder_items(folder, fields: [:etag, :sha1, :name, :type, :path_collection, :created_at, :created_by, :download_url, :updated_at])
-
+    attempts = 3
+    begin
+      all_items = @client.folder_items(folder, fields: [:etag, :sha1, :name, :type, :path_collection, :created_at, :created_by, :download_url, :updated_at])
+    rescue => error
+      attempts -= 1
+      if attempts > 0
+        puts "BOXR an error happened, retrying... #{error}"
+        puts "BOXR retry attempts remaining #{attempts}"
+        retry
+      end
+      raise
+    end
+    
     all_items.each do |i|
 
       if i.type == "file"
