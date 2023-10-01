@@ -64,8 +64,6 @@ gem 'lograge'
 # Dotenv for loading .env
 gem 'dotenv-rails', :groups => [:development, :test]
 
-gem 'newrelic_rpm'
-
 gem 'puma'
 
 # Added for front-end React
