@@ -2,6 +2,14 @@ require 'sendgrid-ruby'
 
 class SendgridMailer
 
+  def self.sender_name
+    ENV['EMAIL_SENDER_NAME']
+  end
+
+  def self.sender_email
+    ENV['EMAIL_SENDER_EMAIL']
+  end
+
   def self.template_id_for_account_creation
     "3c8d35a7-72a4-4d3b-ad73-3358249b178e"
   end
@@ -61,8 +69,8 @@ class SendgridMailer
       mail = SendGrid::Mail.new do |m|
         m.to_name = recipient_name
         m.to = recipient_email
-        m.from_name = 'Real Ventures'
-        m.from = 'admin@realventures.com'
+        m.from_name = sender_name
+        m.from = sender_email
         m.subject = 'x1'
         m.text = 'x2' # This is required, but blank because a template is used for the actual body.
         m.smtpapi = smtpapi_values
@@ -109,7 +117,7 @@ class SendgridMailer
     sg = SendGrid::API.new(api_key: ENV['SENDGRID_API_KEY'])
     
     email = SendGrid::Mail.new
-    email.from = SendGrid::Email.new(email: 'admin@realventures.com', name: 'Real Ventures')
+    email.from = SendGrid::Email.new(email: sender.email, name: sender.name)
     # email.subject = "Your Email's Subject"
     
     p = SendGrid::Personalization.new
